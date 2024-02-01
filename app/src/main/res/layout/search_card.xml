@@ -1,0 +1,43 @@
+<!-- Your item layout for RecyclerView -->
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_margin="3dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="#525252">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/userPhoto1"
+            android:layout_width="64dp"
+            android:layout_height="50dp"
+            android:contentDescription="User Photo"
+            android:scaleType="centerCrop"
+            android:src="@drawable/microsoft" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginTop="11dp"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

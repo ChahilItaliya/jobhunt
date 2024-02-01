@@ -1,0 +1,77 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/baseline_home_24"
+            android:padding="10dp" />
+
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Profile"
+            android:icon="@drawable/baseline_person_24"
+            android:padding="10dp" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings"
+            android:icon="@drawable/baseline_brightness_5_24"
+            android:padding="10dp" />
+    </group>
+
+
+
+    <item android:title="Profile">
+
+        <menu>
+
+            <group android:checkableBehavior="single">
+
+
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="Logout"
+                    android:icon="@drawable/baseline_person_24"
+                    android:padding="10dp" />
+
+
+            </group>
+
+        </menu>
+
+    </item>
+
+
+
+    <item android:title="Comunicate">
+
+        <menu>
+
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/nav_contactus"
+                    android:title="Contact us"
+                    android:icon="@drawable/baseline_person_24"
+
+                    android:padding="10dp" />
+
+                <item
+                    android:id="@+id/nav_rate"
+                    android:title="Rate us"
+                    android:icon="@drawable/baseline_person_24"
+
+                    android:padding="10dp" />
+
+                <item
+                    android:id="@+id/nav_about"
+                    android:title="About us"
+                    android:icon="@drawable/baseline_person_24"
+                    android:padding="10dp" />
+            </group>
+        </menu>
+    </item>
+</menu>
