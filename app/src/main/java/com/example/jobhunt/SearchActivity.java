@@ -1,8 +1,10 @@
 package com.example.jobhunt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +23,8 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
-    private List<String> dataList;
-    private List<String> allTitles; // Store all titles fetched from Firestore
+    private List<MyItem> itemList;
+    private List<MyItem> allTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,10 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         db = FirebaseFirestore.getInstance();
-        dataList = new ArrayList<>();
-        allTitles = new ArrayList<>(); // Initialize the list for all titles
+        itemList = new ArrayList<>();
+        allTitles = new ArrayList<>();  // Initialize the filtered list
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new MyAdapter(dataList);
+        adapter = new MyAdapter(itemList);  // Use the filtered list with the adapter
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -56,36 +58,58 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        // Fetch all data from Firestore initially
-        fetchAllTitlesFromFirestore();
+        fetchAllTitlesAndDocumentIdsFromFirestore();
+        adapter.listener = new MyAdapter.onItemClicked() {
+            @Override
+            public void onItemClicked(MyItem myItem) {
+                // Handle the click action here, for example, start a new activity with the card details
+                Data data = new Data();
+                data.setId(myItem.getDocumentId());
+                //Log.d("ItemCount", "Total items Card: " + card.getTitle());
+                Log.d("ItemCount", "Total items Card: " + myItem.getTitle());
+                Log.d("ItemCount", "Total items id: " + myItem.getDocumentId());
+                Intent intent = new Intent(SearchActivity.this, TempActivity.class);
+                intent.putExtra("title", myItem.getTitle()); // Pass the card ID to the new activity
+                intent.putExtra("description", myItem.getDescription());
+                startActivity(intent);
+            }
+        };
+
+
     }
 
-    private void fetchAllTitlesFromFirestore() {
+    private void fetchAllTitlesAndDocumentIdsFromFirestore() {
         CollectionReference collectionReference = db.collection("jobs");
 
         collectionReference.get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     allTitles.clear();
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        String documentId = documentSnapshot.getId();
                         String title = documentSnapshot.getString("title");
                         if (title != null) {
-                            allTitles.add(title.toLowerCase()); // Store lowercase titles for case-insensitive search
+                            MyItem item = new MyItem(title.toLowerCase(), documentId);
+                            allTitles.add(item);
                         }
                     }
+                    adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
-                    // Handle any errors that occur while fetching all titles
+                    // Handle any errors that occur while fetching all titles and document IDs
                 });
     }
 
     private void performLocalSearch(String searchText) {
-        dataList.clear();
+        itemList.clear();
         if (!searchText.isEmpty()) {
-            for (String title : allTitles) {
-                if (title.startsWith(searchText.toLowerCase())) {
-                    dataList.add(title);
+            for (MyItem item : allTitles) {
+                if (item.getTitle().toLowerCase().startsWith(searchText.toLowerCase())) {
+                    itemList.add(item);
                 }
             }
+        } else {
+            // If the search text is empty, show all items
+//            itemList.addAll(itemList);
         }
         adapter.notifyDataSetChanged();
     }

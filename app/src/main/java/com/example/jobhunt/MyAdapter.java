@@ -1,49 +1,75 @@
 package com.example.jobhunt;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.IteamViewHolder> {
 
-    private List<String> dataList;
+    private List<MyItem> itemlist;
+    private List<MyItem> filteredList;
+    public MyAdapter.onItemClicked listener;
 
-    public MyAdapter(List<String> dataList) {
-        this.dataList = dataList;
+
+    public MyAdapter(List<MyItem> itemlist) {
+        this.itemlist = itemlist;
+    }
+
+    public void setItemlist(List<MyItem> itemlist) {
+        this.itemlist = itemlist;
+        this.filteredList = new ArrayList<>(itemlist);
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_card, parent, false);
-        return new MyViewHolder(view);
+    public IteamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        return new IteamViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String data = dataList.get(position);
-        holder.setData(data);
+    public void onBindViewHolder(@NonNull IteamViewHolder holder, int position) {
+        MyItem myItem = itemlist.get(position);
+        holder.titleTextView.setText(myItem.getTitle());
+        holder.descriptionTextView.setText(myItem.getDescription());
+        // Set photo (you might use a library like Picasso or Glide to load images)
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClicked(myItem); // Pass the clicked card to the listener
+                }
+            }
+        });
+    }
+    public interface onItemClicked {
+        void onItemClicked(MyItem myItem);
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return itemlist.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
+    public static class IteamViewHolder extends RecyclerView.ViewHolder {
+        TextView titleTextView;
+        TextView descriptionTextView;
 
-        public MyViewHolder(View itemView) {
+        public IteamViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
-        }
-
-        public void setData(String data) {
-            textView.setText(data);
+            titleTextView = itemView.findViewById(R.id.title_text_view);
+            descriptionTextView = itemView.findViewById(R.id.description_text_view);
+            // Photo view initialization
         }
     }
 }

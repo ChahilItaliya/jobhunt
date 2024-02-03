@@ -1,43 +1,21 @@
+<!--suppress AndroidUnknownAttribute -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <!--        <androidx.appcompat.widget.SearchView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:id="@+id/searchEditText"-->
+    <!--            android:layout_margin="8dp"-->
+    <!--            android:background="@drawable/edit1"-->
+    <!--            android:hint="Search"/>-->
+    
+
 
     <RelativeLayout
-        android:id="@+id/abc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit1"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
-
-<!--        <androidx.appcompat.widget.SearchView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/searchEditText"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:background="@drawable/edit1"-->
-<!--            android:hint="Search"/>-->
-
-        <EditText
-            android:id="@+id/searchEditText"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Search"
-            android:textColorHint="@color/white"
-            android:textSize="20dp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_below="@id/abc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp">
@@ -45,11 +23,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
     </RelativeLayout>
 
 
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-
