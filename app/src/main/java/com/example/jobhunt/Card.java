@@ -4,14 +4,13 @@ public class Card {
     private String title;
     private String description;
     private String documentId;
+    private String photo;
 
 
-    public Card() {
-        // Default constructor required for Firebase
-    }
 
-    public Card(String title, String description,String documentId) {
-//        this.photo = photo;
+
+    public Card(String title, String description,String documentId,String photo) {
+        this.photo = photo;
         this.title = title;
         this.description = description;
         this.documentId = documentId;
@@ -48,5 +47,13 @@ public class Card {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getPhoto() {
+        return photo;
     }
 }

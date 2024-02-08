@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerViewc = findViewById(R.id.recyclerviewc);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
         // Display the default activity
         //startActivity(new Intent(MainActivity.this, MainActivity.class));
@@ -169,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
                             String documentId = document.getId();
                             String title = document.getString("title");
                             String description = document.getString("description");
+                            String photo = document.getString("img");
 
-
-                            Job job = new Job(title, description,documentId);
+                            Job job = new Job(title,description,documentId,photo);
                             jobList.add(job);
 
                         }
@@ -195,7 +193,10 @@ public class MainActivity extends AppCompatActivity {
                             String documentId = document.getId();
                             String title = document.getString("title");
                             String description = document.getString("description");
-                            Card card = new Card(title, description, documentId);
+                            String photo = document.getString("img");
+
+                            Card card = new Card(title, description, documentId,photo);
+
                             cardList.add(card);
                         }
                         // Notify adapter after loading all data outside the loop

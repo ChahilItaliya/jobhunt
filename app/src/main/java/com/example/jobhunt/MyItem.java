@@ -4,14 +4,15 @@ public class MyItem {
     private String title;
     private String description;
     private String documentId;
+    private String photo;
 
 
     public MyItem() {
         // Default constructor required for Firebase
     }
 
-    public MyItem(String title,String documentId) {
-//        this.photo = photo;
+    public MyItem(String title,String documentId,String photo) {
+        this.photo = photo;
         this.title = title;
         this.description = description;
         this.documentId = documentId;
@@ -48,5 +49,13 @@ public class MyItem {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getPhoto() {
+        return photo;
     }
 }

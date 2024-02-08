@@ -106,8 +106,9 @@ public class SearchActivity extends AppCompatActivity {
                     for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         String documentId = documentSnapshot.getId();
                         String title = documentSnapshot.getString("title");
+                        String photo = documentSnapshot.getString("img");
                         if (title != null) {
-                            MyItem item = new MyItem(title.toLowerCase(), documentId);
+                            MyItem item = new MyItem(title.toLowerCase(), documentId,photo);
                             allTitles.add(item);
                         }
                     }
