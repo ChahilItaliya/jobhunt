@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000"
     android:focusableInTouchMode="true"
     android:gravity="center"
@@ -42,34 +42,75 @@
                     android:src="@drawable/ic_register_hero" />
             </RelativeLayout>
 
-            <EditText
-                android:id="@+id/log_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/edit1"
-                android:hint="Enter Email"
-                android:inputType="textEmailAddress"
-                android:padding="8dp"
-                android:textColorHint="#ffff"
-                android:textSize="16sp" />
+            <com.google.android.material.textfield.TextInputLayout
 
-            <EditText
-                android:id="@+id/log_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Enter Email"
+                app:boxStrokeWidth="3dp"
+                app:endIconMode="clear_text"
+                app:shapeAppearanceOverlay="@style/edittext">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/log_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/log_email"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="32dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginEnd="32dp"-->
+            <!--                android:background="@drawable/edit1"-->
+            <!--                android:hint="Enter Email"-->
+            <!--                android:inputType="textEmailAddress"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:textColorHint="#ffff"-->
+            <!--                android:textSize="16sp" />-->
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/log_pass"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="32dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginEnd="32dp"-->
+            <!--                android:background="@drawable/edit1"-->
+            <!--                android:hint="Enter Passsword"-->
+            <!--                android:inputType="textPassword"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:textColorHint="#ffff"-->
+            <!--                android:textSize="16sp"-->
+            <!--                tools:ignore="Autofill" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:background="@drawable/edit1"
-                android:hint="Enter Passsword"
-                android:inputType="textPassword"
-                android:padding="8dp"
-                android:textColorHint="#ffff"
-                android:textSize="16sp"
-                tools:ignore="Autofill" />
+                android:hint="Enter password"
+                app:boxStrokeWidth="3dp"
+                app:endIconMode="password_toggle"
+                app:shapeAppearanceOverlay="@style/edittext">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/log_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    app:boxStrokeColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 style="@style/viewParent"
@@ -88,7 +129,7 @@
                 android:text="Log In"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp"
-                android:textStyle="bold"></Button>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/reg"

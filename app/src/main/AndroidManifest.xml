@@ -15,10 +15,7 @@
         android:theme="@style/Theme.Jobhunt"
         tools:targetApi="31">
         <activity
-            android:name=".NavHeaderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Nav_header"
+            android:name=".RecentjobActivity"
             android:exported="false" />
         <activity
             android:name=".InterstActivity"

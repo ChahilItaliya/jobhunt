@@ -27,6 +27,19 @@
                     android:background="@drawable/baseline_keyboard_arrow_right_24"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_bookmark_border_24"
+                    android:clickable="true"
+                    android:layout_gravity="center"/>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -34,6 +47,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp">
                 <ImageView
+                    android:id="@+id/photo"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     app:srcCompat="@drawable/microsoft"
@@ -50,6 +64,7 @@
                 android:layout_marginTop="15dp">
                 <!-- ... (unchanged) ... -->
                 <TextView
+                    android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="USA New York"
@@ -86,6 +101,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp">
                 <TextView
+                    android:id="@+id/expr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="3-4 Years"
@@ -127,6 +143,7 @@
                             android:layout_gravity="center"/>
 
                         <TextView
+                            android:id="@+id/workplace"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Remote"
@@ -161,6 +178,7 @@
                             android:layout_gravity="center"/>
 
                         <TextView
+                            android:id="@+id/time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Full-Time"
@@ -195,6 +213,7 @@
                             android:layout_gravity="center"/>
 
                         <TextView
+                            android:id="@+id/salary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$40/hr"
@@ -229,6 +248,12 @@
                     android:id="@+id/description"
                     android:text="Description of compney"
                     android:textSize="15dp"/>
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.MaterialDivider"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="8dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -261,6 +286,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
         <Button
+            android:id="@+id/apply"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

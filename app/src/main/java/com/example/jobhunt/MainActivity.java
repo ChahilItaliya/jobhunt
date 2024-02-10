@@ -3,13 +3,12 @@ package com.example.jobhunt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView,recyclerViewc;
     private JobAdapter jobAdapter;
+    private RecentAdapter recentAdapter;
     private List<Job> jobList;
     private CardAdapter cardAdapter;
     private List<Card> cardList;
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchBar searchBar;
     private DrawerLayout drawerLayout;
     private ImageView profileImageView;
+    LinearLayout recentjob;
 
 
 //    SearchView searchView = findViewById(R.id.searchView);
@@ -64,13 +65,15 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         String userId = auth.getCurrentUser().getUid();
-
+        Data data = new Data();
+        data.setId(userId);
         fetchUserName(userId);
 
 
         drawerLayout = findViewById(R.id.drawer_layout);
         profileImageView = findViewById(R.id.userPhoto);
 
+        recentjob = findViewById(R.id.recentjob);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerViewc = findViewById(R.id.recyclerviewc);
@@ -90,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         jobAdapter = new JobAdapter(jobList);
         recyclerView.setAdapter(jobAdapter);
 
+        recentAdapter = new RecentAdapter(jobList);
+
         cardList = new ArrayList<>();
         cardAdapter = new CardAdapter(cardList);
         recyclerViewc.setAdapter(cardAdapter);
@@ -107,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, TempActivity.class);
                 intent.putExtra("title", card.getTitle()); // Pass the card ID to the new activity
                 intent.putExtra("description", card.getDescription());
+                intent.putExtra("id",card.getDocumentId());
+                intent.putExtra("img",card.getPhoto());
                 startActivity(intent);
             }
         };
@@ -121,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, TempActivity.class);
                 intent.putExtra("title", job.getTitle()); // Pass the card ID to the new activity
                 intent.putExtra("description", job.getDescription());
+                intent.putExtra("id",job.getDocumentId());
+                intent.putExtra("img",job.getPhoto());
                 startActivity(intent);
 
             }
@@ -159,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         cardRef = db.collection("jobs");
 
         // Retrieve data from Firestore
-        jobsRef.orderBy("date", Query.Direction.ASCENDING)
+        jobsRef.limit(5) // Limit to first 5 records
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -187,7 +196,10 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         // Retrieve data from Firestore
-        cardRef.get().addOnCompleteListener(task -> {
+        cardRef.orderBy("date", Query.Direction.ASCENDING)
+                .limit(5) // Limit to first 5 records
+                .get()
+                .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String documentId = document.getId();
@@ -209,29 +221,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        }
+        //intent for recent job actvity
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    if (item.getItemId() == R.id.home) {
-                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-                        // Handle home action if needed
-                    } else if (item.getItemId() == R.id.resume) {
-                        startActivity(new Intent(MainActivity.this, ResumeActivity.class));
-                    } else if (item.getItemId() == R.id.star) {
-                        startActivity(new Intent(MainActivity.this, EducationActivity.class));
-                    } else if (item.getItemId() == R.id.edu) {
-                        startActivity(new Intent(MainActivity.this, InterstActivity.class));
-                    }
-                    return true;
-                }
-            };
+        recentjob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(MainActivity.this,RecentjobActivity.class);
+                startActivity(in);
+            }
+        });
+
+        }
 
     private void fetchUserName(String userId) {
         // Get the current user ID
         FirebaseUser currentUser = auth.getCurrentUser();
+
         if (currentUser != null) {
 //            String userId = currentUser.getUid();
 
@@ -271,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
             // Replace R.drawable.default_profile with your default placeholder image
             Glide.with(this)
                     .load(imageURL)
+                    .circleCrop()
                     .placeholder(R.drawable.baseline_person_24)
                     .error(R.drawable.baseline_warning_24)
                     .into(profileImageView);
@@ -293,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
             // Use an image-loading library like Glide to load and display the image
             Glide.with(this)
                     .load(imageURL)
-                    .placeholder(R.drawable.new1removebg)
+                    .placeholder(R.drawable.baseline_person_24)
                     .error(R.drawable.baseline_warning_24)
                     .into(navHeaderImageView);
         } else {

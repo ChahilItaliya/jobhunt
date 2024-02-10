@@ -90,6 +90,8 @@ public class SearchActivity extends AppCompatActivity {
                 Intent intent = new Intent(SearchActivity.this, TempActivity.class);
                 intent.putExtra("title", myItem.getTitle()); // Pass the card ID to the new activity
                 intent.putExtra("description", myItem.getDescription());
+                intent.putExtra("id",myItem.getDocumentId());
+                intent.putExtra("img",myItem.getPhoto());
                 startActivity(intent);
             }
         };
