@@ -62,5 +62,6 @@ dependencies {
     implementation ("com.github.dhaval2404:imagepicker:2.1")
     //load img
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    //pdf
 
 }

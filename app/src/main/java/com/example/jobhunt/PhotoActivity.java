@@ -93,7 +93,7 @@ public class PhotoActivity extends AppCompatActivity {
                     .addOnSuccessListener(aVoid -> {
                         // Document updated successfully
                         Toast.makeText(PhotoActivity.this, "Image uploaded and user updated", Toast.LENGTH_SHORT).show();
-                        Intent in= new Intent(PhotoActivity.this,InterstActivity.class);
+                        Intent in= new Intent(PhotoActivity.this,ResumeActivity.class);
                         startActivity(in);
                         finish();
                     })

@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
     private EditText emailEditText, passwordEditText;
-    private TextView register;
+    private TextView register,forgot;
     private Button loginButton;
 
     @Override
@@ -40,9 +40,19 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.log_pass);
         loginButton = findViewById(R.id.btn_login);
         register = findViewById(R.id.reg);
+        forgot = findViewById(R.id.Forgot);
 
         // Set click listener for the login button
         loginButton.setOnClickListener(v -> loginUser());
+
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(LoginActivity.this, work.class);
+
+                startActivity(in);
+            }
+        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

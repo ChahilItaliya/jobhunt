@@ -18,6 +18,15 @@
             android:name=".RecentjobActivity"
             android:exported="false" />
         <activity
+            android:name=".ReadyWork"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".work"
+            android:exported="false" />
+        <activity
             android:name=".InterstActivity"
             android:exported="false" />
         <activity

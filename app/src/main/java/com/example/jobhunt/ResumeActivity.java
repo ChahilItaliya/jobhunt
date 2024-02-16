@@ -31,6 +31,7 @@ public class ResumeActivity extends AppCompatActivity {
 
     private ImageView imgResume;
     private TextView txtResume;
+    Button next;
 
     // Firebase
     private FirebaseFirestore db;
@@ -46,6 +47,7 @@ public class ResumeActivity extends AppCompatActivity {
 
         imgResume = findViewById(R.id.imgresume);
         txtResume = findViewById(R.id.txtresume);
+        next = findViewById(R.id.next);
 
 
 
@@ -54,6 +56,14 @@ public class ResumeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pickPdfFile();
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(ResumeActivity.this,MainActivity.class);
+                startActivity(in);
             }
         });
 

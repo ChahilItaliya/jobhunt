@@ -192,7 +192,7 @@ public class EducationActivity extends AppCompatActivity {
                     "specialization", selectedSpecialization,
                     "monthYear", selectedMonthYear
             ).addOnSuccessListener(aVoid -> {
-                Intent in = new Intent(EducationActivity.this, PhotoActivity.class);
+                Intent in = new Intent(EducationActivity.this, InterstActivity.class);
                 startActivity(in);
                 // Document updated successfully
                 // You can add more logic here or show a success message

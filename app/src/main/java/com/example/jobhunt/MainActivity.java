@@ -3,12 +3,14 @@ package com.example.jobhunt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         data.setId(userId);
         fetchUserName(userId);
 
+        NavigationView navigationView = findViewById(R.id.navbar1);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         profileImageView = findViewById(R.id.userPhoto);
@@ -99,6 +102,42 @@ public class MainActivity extends AppCompatActivity {
         cardAdapter = new CardAdapter(cardList);
         recyclerViewc.setAdapter(cardAdapter);
         recyclerViewc.setLayoutManager(new LinearLayoutManager(this));
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.nav_profile) {
+                    // Handle item 1 click
+                    Intent personIntent = new Intent(MainActivity.this, EditProfile.class);
+                    startActivity(personIntent);
+                }
+                else if (itemId == R.id.nav_settings) {
+                    // Handle item 3 click
+                    Intent activity2Intent = new Intent(MainActivity.this, ResumeActivity.class);
+                    startActivity(activity2Intent);
+                }
+                else if (itemId == R.id.nav_logout) {
+                    // Handle item 4 click
+                    Intent activity2Intent = new Intent(MainActivity.this, ResumeActivity.class);
+                    startActivity(activity2Intent);
+                }
+                else if (itemId == R.id.nav_about) {
+                    // Handle item 6 click
+                    Intent activity2Intent = new Intent(MainActivity.this, ResumeActivity.class);
+                    startActivity(activity2Intent);
+                }
+                else if (itemId == R.id.nav_feedback) {
+                    // Handle item 7 click
+                    Intent activity2Intent = new Intent(MainActivity.this, ResumeActivity.class);
+                    startActivity(activity2Intent);
+                }
+                // Close the sidebar after handling the click
+                return true;
+            }
+        });
+
 
         cardAdapter.listener = new CardAdapter.onCardClicked() {
             @Override

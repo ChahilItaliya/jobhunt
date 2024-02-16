@@ -105,7 +105,8 @@ public class InterstActivity extends AppCompatActivity {
         Map<String, Object> data = new HashMap<>();
         userDocRef.update("selectedChips", selectedChips)
                 .addOnSuccessListener(aVoid -> {
-            Intent in = new Intent(InterstActivity.this, MainActivity.class);
+            Intent in = new Intent(InterstActivity.this, work.class);
+            in.putExtra("id",userId);
             startActivity(in);
             // Document updated successfully
             // You can add more logic here or show a success message
