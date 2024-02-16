@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView profileImageView;
     LinearLayout recentjob;
+    private Card card;
 
 
 //    SearchView searchView = findViewById(R.id.searchView);
@@ -118,10 +119,19 @@ public class MainActivity extends AppCompatActivity {
                     Intent activity2Intent = new Intent(MainActivity.this, ResumeActivity.class);
                     startActivity(activity2Intent);
                 }
-                else if (itemId == R.id.nav_logout) {
+                else if (itemId == R.id.save_job) {
                     // Handle item 4 click
-                    Intent activity2Intent = new Intent(MainActivity.this, ResumeActivity.class);
-                    startActivity(activity2Intent);
+                    if (cardList.size() > 0) {
+                        Card card = cardList.get(0); // Assuming you want to access the first card
+                        Intent activity2Intent = new Intent(MainActivity.this, savejob.class);
+                        activity2Intent.putExtra("documentId", userId);
+                        activity2Intent.putExtra("title", card.getTitle());
+                        activity2Intent.putExtra("description", card.getDescription());
+                        activity2Intent.putExtra("photo", card.getPhoto()); // Assuming photo is a URL or resource ID
+                        startActivity(activity2Intent);
+                    } else {
+                        // Handle the case when cardList is empty or no card is available
+                    }
                 }
                 else if (itemId == R.id.nav_about) {
                     // Handle item 6 click

@@ -7,7 +7,7 @@ public class MyItem {
     private String photo;
 
 
-    public MyItem() {
+    public MyItem(String title, String documentId, int microsoft) {
         // Default constructor required for Firebase
     }
 

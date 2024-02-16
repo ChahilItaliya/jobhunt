@@ -83,4 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.IteamViewHolder> {
             // Photo view initialization
         }
     }
+    public void setListener(onItemClicked listener) {
+        this.listener = listener;
+    }
 }
