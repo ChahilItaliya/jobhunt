@@ -49,25 +49,22 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical">
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="32dp"
-                        android:background="#000000"
-                        android:hint="Enter Email"
-                        app:boxStrokeWidth="3dp"
-                        app:endIconMode="clear_text"
-                        app:shapeAppearanceOverlay="@style/edittext">
 
-                        <com.google.android.material.textfield.TextInputEditText
+
+                        <EditText
                             android:id="@+id/reg_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_marginTop="12dp"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginEnd="32dp"
+                            android:inputType="textPersonName"
+                            android:hint="Enter Email "
+                            android:textColorHint="#ffff"
+                            android:padding="8dp"
+                            android:textColor="#707070"
+                            android:textSize="16sp"
+                            android:background="@drawable/edit" />
 
 
                     <EditText
@@ -91,8 +88,8 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="32dp"
-                        android:inputType="datetime"
-                        android:hint="Enter date of birth"
+                        android:inputType="number"
+                        android:hint="+91 1234567890"
                         android:textColorHint="#ffff"
                         android:padding="8dp"
                         android:textColor="#707070"
