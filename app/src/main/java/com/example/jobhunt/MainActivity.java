@@ -114,11 +114,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent personIntent = new Intent(MainActivity.this, EditProfile.class);
                     startActivity(personIntent);
                 }
-                else if (itemId == R.id.nav_settings) {
-                    // Handle item 3 click
-                    Intent activity2Intent = new Intent(MainActivity.this, ResumeActivity.class);
-                    startActivity(activity2Intent);
-                }
                 else if (itemId == R.id.save_job) {
                     // Handle item 4 click
                     if (cardList.size() > 0) {
