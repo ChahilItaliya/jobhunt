@@ -25,7 +25,7 @@
 
 
 
-    <item android:title="Profile">
+    <item android:title="Communicate">
 
         <menu>
 
@@ -51,16 +51,12 @@
 
 
 
-    <item android:title="Comunicate">
+    <item android:title="Exit">
 
         <menu>
 
             <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_settings"
-                    android:title="Settings"
-                    android:icon="@drawable/baseline_brightness_5_24"
-                    android:padding="10dp" />
+
                 <item
                     android:id="@+id/nav_logout"
                     android:title="Logout"
