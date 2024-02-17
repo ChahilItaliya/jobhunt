@@ -60,9 +60,9 @@
                             android:layout_marginEnd="32dp"
                             android:inputType="textPersonName"
                             android:hint="Enter Email "
-                            android:textColorHint="#ffff"
+                            android:textColorHint="#727272"
                             android:padding="8dp"
-                            android:textColor="#707070"
+                            android:textColor="@color/white"
                             android:textSize="16sp"
                             android:background="@drawable/edit" />
 
@@ -76,9 +76,9 @@
                         android:layout_marginEnd="32dp"
                         android:inputType="textPersonName"
                         android:hint="Enter full Name"
-                        android:textColorHint="#ffff"
+                        android:textColorHint="#727272"
                         android:padding="8dp"
-                        android:textColor="#707070"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:background="@drawable/edit" />
                     <EditText
@@ -90,9 +90,9 @@
                         android:layout_marginEnd="32dp"
                         android:inputType="number"
                         android:hint="+91 1234567890"
-                        android:textColorHint="#ffff"
+                        android:textColorHint="#727272"
                         android:padding="8dp"
-                        android:textColor="#707070"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:background="@drawable/edit" />
                     <EditText
@@ -104,9 +104,9 @@
                         android:layout_marginEnd="32dp"
                         android:inputType="textPassword"
                         android:hint="Enter Password"
-                        android:textColorHint="#ffff"
+                        android:textColorHint="#727272"
                         android:padding="8dp"
-                        android:textColor="#707070"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:background="@drawable/edit" />
                     <Button

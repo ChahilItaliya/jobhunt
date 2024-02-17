@@ -104,6 +104,8 @@ public class TempActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checkIfAlreadyApplied(documentId);
+                bottomsheet bottomsheet = new bottomsheet();
+                bottomsheet.show(getSupportFragmentManager(),bottomsheet.getTag());
             }
         });
 
