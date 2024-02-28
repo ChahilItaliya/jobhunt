@@ -83,7 +83,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         }
     }
 
-
+//jadu
 
 
 //    public void filter(String searchText) {
