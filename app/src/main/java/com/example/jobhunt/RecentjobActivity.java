@@ -65,8 +65,8 @@ public class RecentjobActivity extends AppCompatActivity {
                                 String description = document.getString("description");
                                 String photo = document.getString("img");
 
-                                Job job = new Job(title, description, documentId, photo);
-                                recentJobs.add(job);
+//                                Job job = new Job(title, description, documentId, photo);
+//                                recentJobs.add(job);
                             }
                             // Notify adapter after loading all data
                             recentAdapter.notifyDataSetChanged();

@@ -3,7 +3,7 @@ package com.example.jobhunt;
 public class Job {
     private String title;
     private String description;
-    private String documentId;
+    private String documentId,Id;
     private String photo;
 
 
@@ -11,11 +11,12 @@ public class Job {
         // Default constructor required for Firebase
     }
 
-    public Job(String title, String description,String documentId,String photo) {
+    public Job(String title, String description,String documentId,String Id,String photo) {
 //        this.photo = photo;
         this.title = title;
         this.description = description;
         this.documentId = documentId;
+        this.Id=Id;
         this.photo = photo;
 
 
@@ -51,5 +52,13 @@ public class Job {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 }

@@ -116,17 +116,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (itemId == R.id.save_job) {
                     // Handle item 4 click
-                    if (cardList.size() > 0) {
-                        Card card = cardList.get(0); // Assuming you want to access the first card
-                        Intent activity2Intent = new Intent(MainActivity.this, savejob.class);
+                    Intent activity2Intent = new Intent(MainActivity.this, savejob.class);
+                    startActivity(activity2Intent);
+//                    if (cardList.size() > 0) {
+//                        Card card = cardList.get(0); // Assuming you want to access the first card
+//                        Intent activity2Intent = new Intent(MainActivity.this, savejob.class);
                         activity2Intent.putExtra("documentId", userId);
-                        activity2Intent.putExtra("title", card.getTitle());
-                        activity2Intent.putExtra("description", card.getDescription());
-                        activity2Intent.putExtra("photo", card.getPhoto()); // Assuming photo is a URL or resource ID
-                        startActivity(activity2Intent);
-                    } else {
-                        // Handle the case when cardList is empty or no card is available
-                    }
+//                        activity2Intent.putExtra("title", card.getTitle());
+//                        activity2Intent.putExtra("description", card.getDescription());
+//                        activity2Intent.putExtra("photo", card.getPhoto()); // Assuming photo is a URL or resource ID
+//                        startActivity(activity2Intent);
+//                    } else {
+//                        // Handle the case when cardList is empty or no card is available
+//                    }
                 }
                 else if (itemId == R.id.nav_about) {
                     // Handle item 6 click
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        jobAdapter.listener = new JobAdapter.OnJobClickListener() {
+         jobAdapter.listener = new JobAdapter.OnJobClickListener() {
             @Override
             public void onJobClicked(Job job) {
                 Data data = new Data();
@@ -172,7 +174,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, TempActivity.class);
                 intent.putExtra("title", job.getTitle()); // Pass the card ID to the new activity
                 intent.putExtra("description", job.getDescription());
-                intent.putExtra("id",job.getDocumentId());
+                intent.putExtra("cid",job.getDocumentId());
+                intent.putExtra("id",job.getId());
                 intent.putExtra("img",job.getPhoto());
                 startActivity(intent);
 
@@ -217,23 +220,32 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String documentId = document.getId();
-                            String title = document.getString("title");
-                            String description = document.getString("description");
-                            String photo = document.getString("img");
+                            String cjobId = document.getId(); // Get the job ID from the "jobs" collection
+                            String img = document.getString("img");
+                            // Reference to the "job" subcollection for the current job
+                            CollectionReference jobCollectionRef = jobsRef.document(cjobId).collection("job");
 
-                            Job job = new Job(title,description,documentId,photo);
-                            jobList.add(job);
 
+                            // Fetch documents from the "job" subcollection
+                            jobCollectionRef.get().addOnCompleteListener(jobTask -> {
+                                if (jobTask.isSuccessful()) {
+                                    for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
+                                        // Extract designation, description, etc. from each job document
+                                        String id = jobDocument.getId();
+                                        String designation = jobDocument.getString("designation");
+                                        String description = jobDocument.getString("description");
+
+                                        // Create a Job object or do whatever you need with the fetched data
+                                        Job job = new Job(designation, description,  cjobId, id, img); // Assuming photo is not available in this document
+                                        jobList.add(job);
+                                    }
+                                    // Notify adapter after loading all data outside the loop
+                                    jobAdapter.notifyDataSetChanged();
+                                } else {
+                                    // Handle error
+                                }
+                            });
                         }
-                        // Notify adapter after loading all data outside the loop
-                        jobAdapter.notifyDataSetChanged();
-
-
-                        // After loading data into your jobList, log its size to check the total count
-                        Log.d("ItemCount", "Total items: " + jobList.size());
-
-
                     } else {
                         // Handle error
                     }
