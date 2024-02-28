@@ -42,6 +42,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         Job job = jobList.get(position);
         holder.titleTextView.setText(job.getTitle());
         holder.descriptionTextView.setText(job.getDescription());
+
         // Load image using Glide
         Glide.with(holder.itemView.getContext())
                 .load(job.getPhoto())  // Assuming job.getPhotoUrl() returns the URL of the image
@@ -69,7 +70,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
-        TextView descriptionTextView;
+        TextView descriptionTextView,locationtxt;
         ImageView  photo;
 
 

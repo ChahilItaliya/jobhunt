@@ -211,9 +211,7 @@ public class TempActivity extends AppCompatActivity {
                     Toast.makeText(this, "You have already applied for this job", Toast.LENGTH_SHORT).show();
                 } else {
                     // User has not applied for this job yet
-//                    applyForJob(jobId);
-                    bottomsheet bottomSheet = bottomsheet.newInstance(jobId);
-                    bottomSheet.show(getSupportFragmentManager(),null);
+                    applyForJob(jobId);
                 }
             }).addOnFailureListener(e -> {
                 // Handle failure

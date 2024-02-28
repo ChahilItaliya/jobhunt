@@ -1,17 +1,20 @@
 package com.example.jobhunt;
 
-import static com.example.jobhunt.R.id.img1;
-
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,6 +40,7 @@ public class EditProfile extends AppCompatActivity {
     ImageView img, userPhoto;
     LinearLayout linearLayout, linearLayout1, linearLayout2, linearLayout3;
     TextView txtresume;
+    LinearProgressIndicator progressBar; // Add ProgressBar
     private FirebaseFirestore db;
 
     @Override
@@ -51,9 +56,10 @@ public class EditProfile extends AppCompatActivity {
         linearLayout = findViewById(R.id.q1);
         linearLayout1 = findViewById(R.id.j1);
         linearLayout2 = findViewById(R.id.r1);
-        linearLayout3 = findViewById(img1);
+        linearLayout3 = findViewById(R.id.img1);
         userPhoto = findViewById(R.id.userPhoto);
         txtresume = findViewById(R.id.txtresume);
+        progressBar = findViewById(R.id.progressBar); // Initialize ProgressBar
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -66,8 +72,11 @@ public class EditProfile extends AppCompatActivity {
 
         // Set click listeners
         img.setOnClickListener(view -> {
+            // Show progress dialog when updating resume
+            //showProgressDialog();
             UpdateResume updateResume = new UpdateResume();
-            updateResume.show(getSupportFragmentManager(), updateResume.getTag());
+            updateResume.show(getSupportFragmentManager(),updateResume.getTag());
+            // Handle updating resume here
         });
 
         linearLayout.setOnClickListener(view -> {
@@ -96,6 +105,17 @@ public class EditProfile extends AppCompatActivity {
         // Load profile image from URL
         loadProfileImageFromURL(userId);
     }
+
+    // Function to show the progress dialog
+    private void showProgressDialog() {
+        Dialog progressDialog = new Dialog(this);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setCancelable(false);
+        progressDialog.setContentView(R.layout.activity_edit_profile); // Use progress dialog layout
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.show();
+    }
+
     private void loadProfileImageFromURL(String userId) {
         // Get the reference to the document containing the user data
         DocumentReference userRef = db.collection("users").document(userId);
@@ -121,6 +141,9 @@ public class EditProfile extends AppCompatActivity {
                         // You can set a default image or display an error message
                         userPhoto.setImageResource(R.drawable.baseline_person_24);
                     }
+
+                    // Hide ProgressBar after image loaded
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     // Document does not exist
                     // You can handle this case accordingly
@@ -134,6 +157,7 @@ public class EditProfile extends AppCompatActivity {
             }
         });
     }
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == ImagePicker.REQUEST_CODE) {
@@ -148,6 +172,9 @@ public class EditProfile extends AppCompatActivity {
     // Upload image to Firebase Storage
     private void uploadImageToFirebaseStorage(Uri imageUri) {
         if (imageUri != null) {
+            // Show ProgressBar while uploading
+            progressBar.setVisibility(View.VISIBLE);
+
             // Create a storage reference
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("profile_images").child(userId);
@@ -183,6 +210,8 @@ public class EditProfile extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     // Handle error updating image URL
                     Toast.makeText(EditProfile.this,"Failed to update profile image", Toast.LENGTH_SHORT).show();
+                    // Hide ProgressBar in case of failure
+                    progressBar.setVisibility(View.GONE);
                 });
     }
 }

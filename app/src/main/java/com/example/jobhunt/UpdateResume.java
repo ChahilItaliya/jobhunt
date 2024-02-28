@@ -2,6 +2,7 @@
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -186,6 +187,12 @@ public class UpdateResume extends BottomSheetDialogFragment {
     }
 
     private void uploadAndReplaceResume(Uri pdfUri, String newResumeFileName) {
+        // Show progress dialog
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Uploading Resume");
+        progressDialog.setMessage("Please wait while we upload and replace your resume...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         if (currentUser != null) {
             String userId = currentUser.getUid();
             String storageFileName = "resumes/" + userId + "/" + newResumeFileName;
@@ -202,8 +209,14 @@ public class UpdateResume extends BottomSheetDialogFragment {
                         oldStorageRef.delete().addOnSuccessListener(aVoid -> {
                             // Upload the new resume
                             storageRef.putFile(pdfUri)
+                                    .addOnProgressListener(taskSnapshot -> {
+                                        // Calculate progress percentage
+                                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                        progressDialog.setMessage("Uploading " + (int) progress + "%");
+                                    })
                                     .addOnSuccessListener(taskSnapshot -> {
                                         // Get the download URL
+                                        progressDialog.dismiss();
                                         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                                             // Update Firestore with resume URL and file name
                                             FirebaseFirestore.getInstance().collection("users").document(userId)
@@ -215,7 +228,11 @@ public class UpdateResume extends BottomSheetDialogFragment {
                                                     .addOnFailureListener(e -> showToast("Failed to update resume details: " + e.getMessage()));
                                         }).addOnFailureListener(e -> showToast("Failed to get download URL: " + e.getMessage()));
                                     })
-                                    .addOnFailureListener(e -> showToast("Failed to upload resume: " + e.getMessage()));
+                                    .addOnFailureListener(e -> {
+                                        // Dismiss progress dialog on failure
+                                        progressDialog.dismiss();
+                                        showToast("Failed to upload resume: " + e.getMessage());
+                                    });
                         }).addOnFailureListener(e -> showToast("Failed to delete old resume: " + e.getMessage()));
                     } else {
                         showToast("No old resume found");

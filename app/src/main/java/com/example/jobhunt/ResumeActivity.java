@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,6 +39,7 @@ public class ResumeActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
+    private CircularProgressIndicator progressBar;
 
 
     @Override
@@ -48,7 +50,7 @@ public class ResumeActivity extends AppCompatActivity {
         imgResume = findViewById(R.id.imgresume);
         txtResume = findViewById(R.id.txtresume);
         next = findViewById(R.id.next);
-
+        progressBar = findViewById(R.id.progressBar);
 
 
         Button choosePdfButton = findViewById(R.id.choosePdfButton);
@@ -143,13 +145,14 @@ public class ResumeActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.GONE);
     }
 
 
     private void uploadResumeToFirebaseStorage(Uri pdfUri, String fileName) {
         if (currentUser != null) {
             String userId = currentUser.getUid();
-
+            progressBar.setVisibility(View.VISIBLE);
             // Create a unique file name in Firebase Storage
             String storageFileName = "resumes/" + userId + "/" + fileName;
 
@@ -162,7 +165,13 @@ public class ResumeActivity extends AppCompatActivity {
 
                 // Upload PDF file to Firebase Storage
                 UploadTask uploadTask = storageRef.putStream(stream);
+                uploadTask.addOnProgressListener(taskSnapshot -> {
+                    // Calculate upload progress percentage
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
+                    // Update progress bar
+                    progressBar.setProgress((int) progress);
+                });
                 // Monitor the upload task
                 uploadTask.addOnSuccessListener(taskSnapshot -> {
                     // File uploaded successfully
