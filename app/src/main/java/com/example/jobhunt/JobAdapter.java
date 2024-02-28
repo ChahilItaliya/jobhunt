@@ -82,24 +82,20 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             // Photo view initialization
         }
     }
-
-//jadu
-
-
-//    public void filter(String searchText) {
-//        filteredList.clear();
-//        if (TextUtils.isEmpty(searchText)) {
-//            filteredList.addAll(jobList);
-//        } else {
-//            String query = searchText.toLowerCase().trim();
-//            for (Job job : jobList) {
-//                if (job.getTitle().toLowerCase().contains(query)
-//                        || job.getDescription().toLowerCase().contains(query)) {
-//                    filteredList.add(job);
-//                }
-//            }
-//        }
-//        notifyDataSetChanged();
-//    }
+    ////    public void filter(String searchText) {
+    ////        filteredList.clear();
+    ////        if (TextUtils.isEmpty(searchText)) {
+    ////            filteredList.addAll(jobList);
+    ////        } else {
+    ////            String query = searchText.toLowerCase().trim();
+    ////            for (Job job : jobList) {
+    ////                if (job.getTitle().toLowerCase().contains(query)
+    ////                        || job.getDescription().toLowerCase().contains(query)) {
+    ////                    filteredList.add(job);
+    ////                }
+    ////            }
+    ////        }
+    ////        notifyDataSetChanged();
+    ////    }
 
 }
