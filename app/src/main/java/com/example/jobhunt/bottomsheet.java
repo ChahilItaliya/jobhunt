@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.HashMap;
 
@@ -38,10 +39,12 @@ public class bottomsheet extends BottomSheetDialogFragment {
      * @return A new instance of fragment bottomsheet.
      */
     // TODO: Rename and change types and number of parameters
-    public static bottomsheet newInstance(String jobId) {
+    public static bottomsheet newInstance(String companyId,String jobId) {
         bottomsheet fragment = new bottomsheet();
         Bundle args = new Bundle();
-        args.putString("jobId",jobId); // Add the ID to the arguments bundle
+//        args.putString("resume",resume);
+        args.putString("jobId",jobId);// Add the ID to the arguments bundle
+        args.putString("companyId",companyId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,6 +63,8 @@ public class bottomsheet extends BottomSheetDialogFragment {
         // Retrieve references to views
         TextView textViewName = view.findViewById(R.id.txtresume);
         Button button = view.findViewById(R.id.submit);
+//        String resume = getArguments().getString("resume");
+        String companyId = getArguments().getString("companyId");
         String jobId = getArguments().getString("jobId");
 
         // Set the text name
@@ -71,32 +76,51 @@ public class bottomsheet extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 // Handle button click event here
                 // For example, you can dismiss the bottom sheet dialog
-//                applyForJob();
-                dismiss();
+                applyForJob(companyId,jobId);
+
             }
         });
 
         return view;
     }
-    private void applyForJob(String jobId) {
+    private void applyForJob(String companyId, String jobId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            DocumentReference userRef = db.collection("users").document(userId)
-                    .collection("jobApply").document(jobId); // Use jobId as the document ID
-            // Add the job ID as a field in the document within the "jobApply" subcollection
-            userRef.set(new HashMap<String, Object>() {{
-                        put("jobId", jobId);
-                    }})
-                    .addOnSuccessListener(documentReference -> {
+
+            // Store the user's application under the company's job listing
+            DocumentReference companyJobRef = db.collection("jobs")
+                    .document(companyId)
+                    .collection("job")
+                    .document(jobId)
+                    .collection("candidates")
+                    .document(userId);
+
+            // Update a "process" field in the user's job application entry
+            DocumentReference userJobRef = db.collection("users")
+                    .document(userId)
+                    .collection("jobApply")
+                    .document(companyId)
+                    .collection("applyjob")
+                    .document(jobId);
+
+            HashMap<String, Object> userData = new HashMap<>();
+            userData.put("process", "applied");
+
+            db.runTransaction((Transaction.Function<Void>) transaction -> {
+                        transaction.set(companyJobRef, userData);
+                        transaction.set(userJobRef, userData);
+                        return null;
+                    })
+                    .addOnSuccessListener(aVoid -> {
 //                        Toast.makeText(this, "Applied successfully", Toast.LENGTH_SHORT).show();
-                        // Document created successfully
+                        dismiss();
                     })
                     .addOnFailureListener(e -> {
-                        // Handle failure
 //                        Toast.makeText(this, "Failed to apply", Toast.LENGTH_SHORT).show();
                     });
         }
     }
+
 }

@@ -1,7 +1,5 @@
 package com.example.jobhunt;
 
-import static com.example.jobhunt.R.id.back;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +24,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.HashMap;
 
@@ -34,7 +33,6 @@ public class TempActivity extends AppCompatActivity {
     private TextView textView,description,txtworkplace,txttime,txtsalary,txtlocation,txtexpr,txteligibility;
     ImageView imgphoto,imageView,img;
     Button btnapply;
-
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
@@ -90,41 +88,6 @@ public class TempActivity extends AppCompatActivity {
         });
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-//        db.collection("jobs").document(documentId).get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            if (document.exists()) {
-//                                // Document exists, extract data and display
-//                                String workplace = document.getString("workplace");
-//                                String time = document.getString("time");
-//                                String salary = document.getString("salary");
-//                                String location = document.getString("location");
-//                                String expr = document.getString("expr");
-//
-//                                txtworkplace.setText(workplace != null ? workplace : "No workplace");
-//                                txttime.setText(time != null ? time : "No time");
-//                                txtsalary.setText(salary != null ? salary : "No salary");
-//                                txtlocation.setText(location != null ? location : "No location");
-//                                txtexpr.setText(expr != null ? expr : "No expr");
-//
-//                            } else {
-//                                // Document does not exist, display default message
-//                                txtworkplace.setText("txtworkplace not found");
-//                                txttime.setText("No description txttime");
-//                                txtsalary.setText("No description txtsalary");
-//                            }
-//                        } else {
-//                            // Handle errors while fetching document
-//                            txtworkplace.setText("Error fetching txtworkplace");
-//                            txttime.setText("Error fetching txttime");
-//                            txtsalary.setText("No txtsalary available");
-//                        }
-//                    }
-//                });
-
         db.collection("jobs").document(documentId).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -174,6 +137,27 @@ public class TempActivity extends AppCompatActivity {
                         }
                     }
                 });
+        DocumentReference userRef = db.collection("users").document(userId);
+        // Fetch the document containing the user data
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    // Get the image URL from the "profileImageUrl" field in the document
+                    String resume = documentSnapshot.getString("resumeFileName");
+
+                } else {
+                    // Document does not exist
+                    // You can handle this case accordingly
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle failure to fetch user data
+                Log.e("EditProfile", "Error fetching user data", e);
+            }
+        });
 
 
         //image view chang
@@ -181,7 +165,7 @@ public class TempActivity extends AppCompatActivity {
         btnapply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkIfAlreadyApplied(documentId);
+                checkIfAlreadyApplied(documentId,id);
             }
         });
 
@@ -208,7 +192,7 @@ public class TempActivity extends AppCompatActivity {
             });
         }
     }
-    private void checkIfAlreadyApplied(String jobId) {
+    public void checkIfAlreadyApplied(String documentId,String jobId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -222,7 +206,7 @@ public class TempActivity extends AppCompatActivity {
                 } else {
                     // User has not applied for this job yet
 //                    applyForJob(jobId);
-                    bottomsheet bottomSheet = bottomsheet.newInstance(jobId);
+                    bottomsheet bottomSheet = bottomsheet.newInstance(documentId,jobId);
                     bottomSheet.show(getSupportFragmentManager(),null);
                 }
             }).addOnFailureListener(e -> {
@@ -232,53 +216,49 @@ public class TempActivity extends AppCompatActivity {
         }
     }
 
+
     private void resumename(String userId) {
         // Get the reference to the document containing the user data
-        DocumentReference userRef = db.collection("users").document(userId);
-        // Fetch the document containing the user data
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    // Get the image URL from the "profileImageUrl" field in the document
-                    String resume = documentSnapshot.getString("resumeFileName");
 
-
-                } else {
-                    // Document does not exist
-                    // You can handle this case accordingly
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Handle failure to fetch user data
-                Log.e("EditProfile", "Error fetching user data", e);
-            }
-        });
     }
 
 
-    private void applyForJob(String jobId) {
+    private void applyForJob(String companyId, String jobId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            DocumentReference userRef = db.collection("users").document(userId)
-                    .collection("jobApply").document(jobId); // Use jobId as the document ID
-            // Add the job ID as a field in the document within the "jobApply" subcollection
-            userRef.set(new HashMap<String, Object>() {{
-                        put("jobId", jobId.toString());
-                    }})
-                    .addOnSuccessListener(documentReference -> {
+
+            // Store the user's application under the company's job listing
+            DocumentReference companyJobRef = db.collection("jobs")
+                    .document(companyId)
+                    .collection("jobApplications")
+                    .document(jobId)
+                    .collection("candidates")
+                    .document(userId);
+
+            // Update a "process" field in the user's job application entry
+            DocumentReference userJobRef = db.collection("users")
+                    .document(userId)
+                    .collection("jobApplications")
+                    .document(jobId);
+
+            HashMap<String, Object> userData = new HashMap<>();
+            userData.put("process", "applied");
+
+            db.runTransaction((Transaction.Function<Void>) transaction -> {
+                        transaction.set(companyJobRef, userData);
+                        transaction.set(userJobRef, userData);
+                        return null;
+                    })
+                    .addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "Applied successfully", Toast.LENGTH_SHORT).show();
-                        // Document created successfully
                     })
                     .addOnFailureListener(e -> {
-                        // Handle failure
                         Toast.makeText(this, "Failed to apply", Toast.LENGTH_SHORT).show();
                     });
         }
     }
+
 
 }
