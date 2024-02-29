@@ -253,6 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/description"
+                    android:textColor="@color/white"
                     android:text="Description of compney"
                     android:textSize="15dp"/>
                 <com.google.android.material.divider.MaterialDivider
@@ -281,6 +282,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/eligibility"
+                    android:textColor="@color/white"
                     android:text="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis molestiae nostrum quisquam architecto reprehenderit natus cum, omnis commodi? Cum rerum saepe ad eveniet ducimus excepturi?
 "
                     android:textSize="15dp"/>
