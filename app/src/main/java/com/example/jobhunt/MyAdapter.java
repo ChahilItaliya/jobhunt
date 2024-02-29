@@ -35,7 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.IteamViewHolder> {
     @NonNull
     @Override
     public IteamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_card, parent, false);
         return new IteamViewHolder(view);
     }
 
@@ -43,7 +43,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.IteamViewHolder> {
     public void onBindViewHolder(@NonNull IteamViewHolder holder, int position) {
         MyItem myItem = itemlist.get(position);
         holder.titleTextView.setText(myItem.getTitle());
-        holder.descriptionTextView.setText(myItem.getDescription());
+//        holder.descriptionTextView.setText(myItem.getDescription());
         // Set photo (you might use a library like Picasso or Glide to load images)
         Glide.with(holder.itemView.getContext())
                 .load(myItem.getPhoto())  // Assuming job.getPhotoUrl() returns the URL of the image
@@ -77,7 +77,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.IteamViewHolder> {
         public IteamViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.title_text_view);
-            descriptionTextView = itemView.findViewById(R.id.description_text_view);
             photo = itemView.findViewById(R.id.photo);
 
             // Photo view initialization

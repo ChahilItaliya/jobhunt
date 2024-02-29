@@ -252,8 +252,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         // Retrieve data from Firestore
-        cardRef.orderBy("date", Query.Direction.ASCENDING)
-                .limit(5) // Limit to first 5 records
+        cardRef.limit(5) // Limit to first 5 records
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -263,9 +262,8 @@ public class MainActivity extends AppCompatActivity {
                             // Reference to the "job" subcollection for the current job
                             CollectionReference jobCollectionRef = cardRef.document(cjobId).collection("job");
 
-
                             // Fetch documents from the "job" subcollection
-                            jobCollectionRef.get().addOnCompleteListener(jobTask -> {
+                            jobCollectionRef.orderBy("timestamp", Query.Direction.ASCENDING).get().addOnCompleteListener(jobTask -> {
                                 if (jobTask.isSuccessful()) {
                                     for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
                                         // Extract designation, description, etc. from each job document

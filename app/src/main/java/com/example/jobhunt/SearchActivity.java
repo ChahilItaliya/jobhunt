@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,22 +103,57 @@ public class SearchActivity extends AppCompatActivity {
     private void fetchAllTitlesAndDocumentIdsFromFirestore() {
         CollectionReference collectionReference = db.collection("jobs");
 
+//        collectionReference.get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    allTitles.clear();
+//                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+//                        String documentId = documentSnapshot.getId();
+//                        String title = documentSnapshot.getString("title");
+//                        String photo = documentSnapshot.getString("img");
+//                        if (title != null) {
+//                            MyItem item = new MyItem(title.toLowerCase(), documentId,photo);
+//                            allTitles.add(item);
+//                        }
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                })
+//                .addOnFailureListener(e -> {
+//                    // Handle any errors that occur while fetching all titles and document IDs
+//                });
+
         collectionReference.get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    allTitles.clear();
-                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        String documentId = documentSnapshot.getId();
-                        String title = documentSnapshot.getString("title");
-                        String photo = documentSnapshot.getString("img");
-                        if (title != null) {
-                            MyItem item = new MyItem(title.toLowerCase(), documentId,photo);
-                            allTitles.add(item);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String cjobId = document.getId(); // Get the job ID from the "jobs" collection
+                            String img = document.getString("img");
+                            // Reference to the "job" subcollection for the current job
+                            CollectionReference jobCollectionRef = collectionReference.document(cjobId).collection("job");
+
+
+                            // Fetch documents from the "job" subcollection
+                            jobCollectionRef.orderBy("timestamp", Query.Direction.ASCENDING).get().addOnCompleteListener(jobTask -> {
+                                if (jobTask.isSuccessful()) {
+                                    for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
+                                        // Extract designation, description, etc. from each job document
+                                        String id = jobDocument.getId();
+                                        String designation = jobDocument.getString("designation");
+                                        String description = jobDocument.getString("description");
+
+                                        // Create a Job object or do whatever you need with the fetched data
+                                        MyItem item = new MyItem(designation, description,  cjobId, id, img); // Assuming photo is not available in this document
+                                        allTitles.add(item);
+                                    }
+                                    // Notify adapter after loading all data outside the loop
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    // Handle error
+                                }
+                            });
                         }
+                    } else {
+                        // Handle error
                     }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    // Handle any errors that occur while fetching all titles and document IDs
                 });
     }
 

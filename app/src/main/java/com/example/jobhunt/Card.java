@@ -12,12 +12,12 @@ public class Card {
 
 
     public Card(String title, String description,String documentId,String Id,String photo) {
-        this.photo = photo;
+//        this.photo = photo;
         this.title = title;
         this.description = description;
         this.documentId = documentId;
         this.Id=Id;
-
+        this.photo = photo;
     }
 
 //    public String getPhoto() {

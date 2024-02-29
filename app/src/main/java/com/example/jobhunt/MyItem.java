@@ -3,19 +3,20 @@ package com.example.jobhunt;
 public class MyItem {
     private String title;
     private String description;
-    private String documentId;
+    private String documentId,Id;
     private String photo;
 
 
-    public MyItem(String title, String documentId, int microsoft) {
+    public MyItem() {
         // Default constructor required for Firebase
     }
 
-    public MyItem(String title,String documentId,String photo) {
+    public MyItem(String title, String description,String documentId,String Id,String photo) {
         this.photo = photo;
         this.title = title;
         this.description = description;
         this.documentId = documentId;
+        this.Id=Id;
 
     }
 
@@ -57,5 +58,13 @@ public class MyItem {
 
     public String getPhoto() {
         return photo;
+    }
+
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+
+    public String getId() {
+        return Id;
     }
 }

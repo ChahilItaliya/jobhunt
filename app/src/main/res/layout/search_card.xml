@@ -32,18 +32,13 @@
                 android:id="@+id/title_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="-40dp"
+                android:layout_marginTop="10dp"
                 android:text="Title"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/white"/>
-
-            <TextView
-                android:id="@+id/description_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:textSize="14sp"
-                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
     <com.google.android.material.divider.MaterialDivider
