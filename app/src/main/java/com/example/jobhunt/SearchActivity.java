@@ -94,6 +94,7 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("cid", myItem.getDocumentId());
                 intent.putExtra("id",myItem.getId());
                 intent.putExtra("img",myItem.getPhoto());
+
                 startActivity(intent);
             }
         };
