@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, TempActivity.class);
                 intent.putExtra("title", card.getTitle()); // Pass the card ID to the new activity
                 intent.putExtra("description", card.getDescription());
+                intent.putExtra("cid",card.getDocumentId());
                 intent.putExtra("id",card.getDocumentId());
                 intent.putExtra("img",card.getPhoto());
                 startActivity(intent);
