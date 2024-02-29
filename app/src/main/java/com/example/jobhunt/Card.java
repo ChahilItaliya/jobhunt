@@ -3,17 +3,20 @@ package com.example.jobhunt;
 public class Card {
     private String title;
     private String description;
-    private String documentId;
+    private String documentId,Id;
     private String photo;
 
+    public Card() {
+        // Default constructor required for Firebase
+    }
 
 
-
-    public Card(String title, String description,String documentId,String photo) {
+    public Card(String title, String description,String documentId,String Id,String photo) {
         this.photo = photo;
         this.title = title;
         this.description = description;
         this.documentId = documentId;
+        this.Id=Id;
 
     }
 
@@ -55,5 +58,13 @@ public class Card {
 
     public String getPhoto() {
         return photo;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getId() {
+        return Id;
     }
 }

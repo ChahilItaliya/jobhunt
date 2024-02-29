@@ -258,20 +258,32 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String documentId = document.getId();
-                            String title = document.getString("title");
-                            String description = document.getString("description");
-                            String photo = document.getString("img");
+                            String cjobId = document.getId(); // Get the job ID from the "jobs" collection
+                            String img = document.getString("img");
+                            // Reference to the "job" subcollection for the current job
+                            CollectionReference jobCollectionRef = cardRef.document(cjobId).collection("job");
 
-                            Card card = new Card(title, description, documentId,photo);
 
-                            cardList.add(card);
+                            // Fetch documents from the "job" subcollection
+                            jobCollectionRef.get().addOnCompleteListener(jobTask -> {
+                                if (jobTask.isSuccessful()) {
+                                    for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
+                                        // Extract designation, description, etc. from each job document
+                                        String id = jobDocument.getId();
+                                        String designation = jobDocument.getString("designation");
+                                        String description = jobDocument.getString("description");
+
+                                        // Create a Job object or do whatever you need with the fetched data
+                                        Card card = new Card(designation, description,  cjobId, id, img); // Assuming photo is not available in this document
+                                        cardList.add(card);
+                                    }
+                                    // Notify adapter after loading all data outside the loop
+                                    cardAdapter.notifyDataSetChanged();
+                                } else {
+                                    // Handle error
+                                }
+                            });
                         }
-                        // Notify adapter after loading all data outside the loop
-                        cardAdapter.setCardList(cardList);
-                        cardAdapter.notifyDataSetChanged();
-                        // After loading data into your jobList, log its size to check the total count
-                        Log.d("ItemCount", "Total items Card: " + cardList.size());
                     } else {
                         // Handle error
                     }
