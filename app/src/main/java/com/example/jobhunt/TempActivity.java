@@ -1,5 +1,8 @@
 package com.example.jobhunt;
 
+import static com.example.jobhunt.R.id.back;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +32,7 @@ import java.util.HashMap;
 public class TempActivity extends AppCompatActivity {
 
     private TextView textView,description,txtworkplace,txttime,txtsalary,txtlocation,txtexpr,txteligibility;
-    ImageView imgphoto,imageView;
+    ImageView imgphoto,imageView,img;
     Button btnapply;
 
     private FirebaseFirestore db;
@@ -51,6 +54,7 @@ public class TempActivity extends AppCompatActivity {
         txtexpr = findViewById(R.id.expr);
         btnapply = findViewById(R.id.apply);
         imageView = findViewById(R.id.imageView);
+        img = findViewById(R.id.first);
 
         String title = getIntent().getStringExtra("title");
 
@@ -61,11 +65,11 @@ public class TempActivity extends AppCompatActivity {
         textView.setText(title != null ? title : "No Title");
         description.setText(des != null ? des : "No description");
 
-            Glide.with(this)
-                    .load(photo)
-                    .placeholder(R.drawable.new1removebg)
-                    .error(R.drawable.baseline_warning_24)
-                    .into(imgphoto);
+        Glide.with(this)
+                .load(photo)
+                .placeholder(R.drawable.new1removebg)
+                .error(R.drawable.baseline_warning_24)
+                .into(imgphoto);
 
         String documentId = getIntent().getStringExtra("cid");
         String id = getIntent().getStringExtra("id");
@@ -77,7 +81,13 @@ public class TempActivity extends AppCompatActivity {
 
         resumename(userId);
 
-
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TempActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 //        db.collection("jobs").document(documentId).get()
@@ -272,4 +282,3 @@ public class TempActivity extends AppCompatActivity {
     }
 
 }
-
