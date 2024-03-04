@@ -1,9 +1,12 @@
  package com.example.jobhunt;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +21,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.datatransport.backend.cct.BuildConfig;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -30,7 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class UpdateResume extends BottomSheetDialogFragment {
+import java.io.File;
+
+ public class UpdateResume extends BottomSheetDialogFragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -130,7 +137,7 @@ public class UpdateResume extends BottomSheetDialogFragment {
     }
 
     private void fetchResumeUrl() {
-        DocumentReference resumeDocRef = db.collection("user").document(userId);
+        DocumentReference resumeDocRef = db.collection("users").document(userId);
         resumeDocRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 String resumeUrl = documentSnapshot.getString("resumeUrl");
@@ -140,22 +147,71 @@ public class UpdateResume extends BottomSheetDialogFragment {
                     Log.d("UpdateResume", "Resume URL is empty or null");
                 }
             } else {
-                Log.d("UpdateResume", "Resume document does not exist");
+                Log.d("UpdateResume", "Resume document does not exist"); // This log should not appear if the document exists
             }
         }).addOnFailureListener(e -> Log.e("UpdateResume", "Error fetching resume document: " + e.getMessage()));
     }
 
-    private void downloadResume(String resumeUrl) {
-        DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(resumeUrl));
-        request.setTitle("Resume Download");
-        request.setDescription("Downloading your resume...");
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "resume.pdf");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        downloadManager.enqueue(request);
-    }
+     private void downloadResume(String resumeUrl) {
+         // Show toast message when download starts
+         Toast.makeText(requireContext(), "Downloadind Resume...", Toast.LENGTH_SHORT).show();
 
-    private void deleteResume() {
+         DownloadManager downloadManager = (DownloadManager) requireActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(resumeUrl));
+         request.setTitle("Resume Download");
+         request.setDescription("Downloading your resume...");
+         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "resume.pdf");
+         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+         // Enqueue the download request
+         long downloadId = downloadManager.enqueue(request);
+
+         // Set up a broadcast receiver to detect when the download is complete
+         BroadcastReceiver onComplete = new BroadcastReceiver() {
+             public void onReceive(Context context, Intent intent) {
+                 // Show alert dialog when download is complete
+                 showDownloadCompleteDialog();
+                 // Unregister the receiver
+                 requireActivity().unregisterReceiver(this);
+             }
+         };
+
+         // Register the broadcast receiver to listen for download completion
+         requireActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+     }
+
+     private void showDownloadCompleteDialog() {
+         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+         builder.setTitle("Download Complete")
+                 .setMessage("Do you want to open the downloaded file?")
+                 .setPositiveButton("Open File", (dialog, which) -> {
+                     openDownloadedFile();
+                 })
+                 .setNegativeButton("Cancel", (dialog, which) -> {
+                     // Do nothing, dialog will be automatically closed
+                 })
+                 .setNeutralButton("Okay", (dialog, which) -> {
+                     // Do nothing, dialog will be automatically closed
+                 });
+
+         AlertDialog alertDialog = builder.create();
+         alertDialog.show();
+     }
+
+
+
+     private void openDownloadedFile() {
+         Intent intent = new Intent(Intent.ACTION_VIEW);
+         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "resume.pdf");
+         Uri uri = FileProvider.getUriForFile(requireContext(), getString(R.string.file_provider_authority), file);
+         intent.setDataAndType(uri, "application/pdf");
+         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+         startActivity(intent);
+     }
+
+
+
+     private void deleteResume() {
         if (currentUser != null) {
             String userId = currentUser.getUid();
             DocumentReference userDocRef = db.collection("users").document(userId);

@@ -62,14 +62,47 @@ public class bottomsheet extends BottomSheetDialogFragment {
 
         // Retrieve references to views
         TextView textViewName = view.findViewById(R.id.txtresume);
+        TextView textViewMobileNumber = view.findViewById(R.id.txtnumber);
         Button button = view.findViewById(R.id.submit);
 //        String resume = getArguments().getString("resume");
         String companyId = getArguments().getString("companyId");
         String jobId = getArguments().getString("jobId");
 
         // Set the text name
-        textViewName.setText(jobId);
+        //textViewName.setText(jobId);
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            // Retrieve data from Firestore
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference userRef = db.collection("users").document(userId);
+            userRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    // Retrieve resume file name
+                    String resumeFileName = documentSnapshot.getString("resumeFileName");
+                    if (resumeFileName != null) {
+                        textViewName.setText(resumeFileName);
+                    } else {
+                        // Handle case where resume file name is not found
+                    }
+
+                    // Retrieve mobile number
+                    String mobileNumber = documentSnapshot.getString("dob");
+                    if (mobileNumber != null) {
+                        String mobileNumberWithHint = "Mobile No : " + mobileNumber;
+                        textViewMobileNumber.setText(mobileNumberWithHint);
+                    } else {
+                        // Handle case where mobile number is not found
+                    }
+                } else {
+                    // Handle case where user document does not exist
+                }
+            }).addOnFailureListener(e -> {
+                // Handle failure to retrieve data
+            });
+        }
         // Set click listener on the button
         button.setOnClickListener(new View.OnClickListener() {
             @Override

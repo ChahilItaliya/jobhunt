@@ -1,95 +1,70 @@
 package com.example.jobhunt;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 public class savejob extends AppCompatActivity {
-
-    private FirebaseFirestore db;
-    private FirebaseAuth auth;
-    private List<Save> saveList;
-    private RecyclerView recyclerView;
-    private SaveAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_savejob);
 
-        recyclerView = findViewById(R.id.recyclerviewc);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        saveList = new ArrayList<>();
-        adapter = new SaveAdapter(saveList);
-        recyclerView.setAdapter(adapter);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        MaterialButtonToggleGroup toggleButton = findViewById(R.id.toggleButton);
 
-        db = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
+        // Create an instance of FragmentPagerAdapter
+        FragmentPagerAdapter pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @NonNull
+            @Override
+            public Fragment getItem(int position) {
+                // Return the appropriate fragment based on the position
+                if (position == 0) {
+                    return new applied_jobs();
+                } else if (position == 1) {
+                    return new approved_jobs();
+                } else {
+                    return null;
+                }
+            }
 
-        String userId = auth.getCurrentUser().getUid();
+            @Override
+            public int getCount() {
+                // Return the number of pages
+                return 2;
+            }
+        };
 
-        // Assuming you have the document ID from Firestore passed through intent extras
-//        String userId = getIntent().getStringExtra("userId");
-        Log.d("useriid", "user id: " + userId);
+        // Set the adapter for the ViewPager
+        viewPager.setAdapter(pagerAdapter);
 
-        if (userId != null) {
-            // Retrieve data from the "users" collection using the userId
-            db.collection("users").document(userId).collection("jobApply")
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                String documentId = documentSnapshot.getId();
-                                // Retrieve data from each document
+        // Set default checked state to "Apply Job" button
+        toggleButton.check(R.id.button1);
 
-                                // Check if photoResource is not null or empty before loading with Glide
-                                if (documentId != null && !documentId.isEmpty()) {
-                                    // Fetch corresponding data from the "job" collection using documentId
-                                    db.collection("jobs").document(documentId)
-                                            .get()
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                    if (documentSnapshot.exists()) {
-                                                        String title = documentSnapshot.getString("title");
-                                                        String description = documentSnapshot.getString("description");
-                                                        String photoResource = documentSnapshot.getString("img");
-                                                        Save save = new Save(title, description, documentId, photoResource);
-                                                        saveList.add(save);
-                                                        adapter.notifyDataSetChanged();
-                                                    }
-                                                }
-                                            });
-                                } else {
-                                    // Handle the case where the photoResource is null or empty
-                                    // You can set a default image or handle it according to your requirements
-                                }
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Handle any errors
-                        }
-                    });
-        } else {
-            // Handle the case when userId is null
-        }
+        // Set up toggle button listener
+        toggleButton.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                // Update ViewPager when button checked
+                if (isChecked) {
+                    int position = toggleButton.indexOfChild(findViewById(checkedId));
+                    viewPager.setCurrentItem(position);
+                }
+                for (int i = 0; i < group.getChildCount(); i++) {
+                    MaterialButton btn = (MaterialButton) group.getChildAt(i);
+                    if (btn.getId() != checkedId) {
+                        group.uncheck(btn.getId());
+                    }
+                }
+            }
+        });
     }
 }
