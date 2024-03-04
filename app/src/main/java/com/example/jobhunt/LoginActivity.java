@@ -22,14 +22,14 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
     private EditText emailEditText, passwordEditText;
-    private TextView register,forgot;
+    private TextView register, forgot;
     private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         // Initialize Firebase Authentication
@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(LoginActivity.this, work.class);
-
                 startActivity(in);
             }
         });
@@ -61,12 +60,42 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(in);
             }
         });
+    }
 
+    private boolean validateEmail(String email) {
+        if (email.isEmpty()) {
+            emailEditText.setError("Email is required");
+            emailEditText.requestFocus();
+            return false;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Enter a valid email address");
+            emailEditText.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validatePassword(String password) {
+        if (password.isEmpty()) {
+            passwordEditText.setError("Password is required");
+            passwordEditText.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateCredentials(String email, String password) {
+        return validateEmail(email) && validatePassword(password);
     }
 
     private void loginUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+
+        if (!validateCredentials(email, password)) {
+            return;
+        }
 
         // Firebase Authentication: Sign in with email and password
         auth.signInWithEmailAndPassword(email, password)
@@ -77,21 +106,21 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in successful
                             Log.d("LoginActivity", "User login successful");
                             Intent in = new Intent(LoginActivity.this, MainActivity.class);
-                            Toast.makeText(LoginActivity.this, "LogIn Scuscfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "LogIn Successfully", Toast.LENGTH_SHORT).show();
                             startActivity(in);
 
                             // You can navigate to another activity, show a success message, etc.
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.e("LoginActivity", "User login failed", task.getException());
-                            // You can handle the error appropriately (e.g., show a toast, display an error message)
+                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-    public void onLoginClick(View view)
-    {
-        startActivity(new Intent(this,RegisterActivity.class));
-        overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
+
+    public void onLoginClick(View view) {
+        startActivity(new Intent(this, RegisterActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.stay);
     }
 }

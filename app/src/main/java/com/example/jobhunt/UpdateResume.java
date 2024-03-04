@@ -1,4 +1,4 @@
- package com.example.jobhunt;
+package com.example.jobhunt;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,7 +37,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
- public class UpdateResume extends BottomSheetDialogFragment {
+public class UpdateResume extends BottomSheetDialogFragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -152,66 +152,66 @@ import java.io.File;
         }).addOnFailureListener(e -> Log.e("UpdateResume", "Error fetching resume document: " + e.getMessage()));
     }
 
-     private void downloadResume(String resumeUrl) {
-         // Show toast message when download starts
-         Toast.makeText(requireContext(), "Downloadind Resume...", Toast.LENGTH_SHORT).show();
+    private void downloadResume(String resumeUrl) {
+        // Show toast message when download starts
+        Toast.makeText(requireContext(), "Downloadind Resume...", Toast.LENGTH_SHORT).show();
 
-         DownloadManager downloadManager = (DownloadManager) requireActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(resumeUrl));
-         request.setTitle("Resume Download");
-         request.setDescription("Downloading your resume...");
-         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "resume.pdf");
-         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        DownloadManager downloadManager = (DownloadManager) requireActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(resumeUrl));
+        request.setTitle("Resume Download");
+        request.setDescription("Downloading your resume...");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "resume.pdf");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-         // Enqueue the download request
-         long downloadId = downloadManager.enqueue(request);
+        // Enqueue the download request
+        long downloadId = downloadManager.enqueue(request);
 
-         // Set up a broadcast receiver to detect when the download is complete
-         BroadcastReceiver onComplete = new BroadcastReceiver() {
-             public void onReceive(Context context, Intent intent) {
-                 // Show alert dialog when download is complete
-                 showDownloadCompleteDialog();
-                 // Unregister the receiver
-                 requireActivity().unregisterReceiver(this);
-             }
-         };
+        // Set up a broadcast receiver to detect when the download is complete
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                // Show alert dialog when download is complete
+                showDownloadCompleteDialog();
+                // Unregister the receiver
+                requireActivity().unregisterReceiver(this);
+            }
+        };
 
-         // Register the broadcast receiver to listen for download completion
-         requireActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-     }
+        // Register the broadcast receiver to listen for download completion
+        requireActivity().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
 
-     private void showDownloadCompleteDialog() {
-         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-         builder.setTitle("Download Complete")
-                 .setMessage("Do you want to open the downloaded file?")
-                 .setPositiveButton("Open File", (dialog, which) -> {
-                     openDownloadedFile();
-                 })
-                 .setNegativeButton("Cancel", (dialog, which) -> {
-                     // Do nothing, dialog will be automatically closed
-                 })
-                 .setNeutralButton("Okay", (dialog, which) -> {
-                     // Do nothing, dialog will be automatically closed
-                 });
+    private void showDownloadCompleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Download Complete")
+                .setMessage("Do you want to open the downloaded file?")
+                .setPositiveButton("Open File", (dialog, which) -> {
+                    openDownloadedFile();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    // Do nothing, dialog will be automatically closed
+                })
+                .setNeutralButton("Okay", (dialog, which) -> {
+                    // Do nothing, dialog will be automatically closed
+                });
 
-         AlertDialog alertDialog = builder.create();
-         alertDialog.show();
-     }
-
-
-
-     private void openDownloadedFile() {
-         Intent intent = new Intent(Intent.ACTION_VIEW);
-         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "resume.pdf");
-         Uri uri = FileProvider.getUriForFile(requireContext(), getString(R.string.file_provider_authority), file);
-         intent.setDataAndType(uri, "application/pdf");
-         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-         startActivity(intent);
-     }
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 
 
-     private void deleteResume() {
+    private void openDownloadedFile() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "resume.pdf");
+        Uri uri = FileProvider.getUriForFile(requireContext(), getString(R.string.file_provider_authority), file);
+        intent.setDataAndType(uri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(intent);
+    }
+
+
+
+    private void deleteResume() {
         if (currentUser != null) {
             String userId = currentUser.getUid();
             DocumentReference userDocRef = db.collection("users").document(userId);

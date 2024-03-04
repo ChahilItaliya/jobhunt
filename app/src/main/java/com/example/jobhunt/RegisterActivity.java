@@ -1,15 +1,13 @@
 package com.example.jobhunt;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText nameEditText;
     private EditText dobEditText;
+    private EditText mobileNumberEditText; // Added EditText field for mobile number
     private Button registerButton;
     private TextView login;
 
@@ -48,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.reg_password);
         nameEditText = findViewById(R.id.reg_name);
         dobEditText = findViewById(R.id.reg_dob);
+        mobileNumberEditText = findViewById(R.id.reg_dob); // Initialize mobileNumberEditText
         registerButton = findViewById(R.id.register);
         login = findViewById(R.id.login);
 
@@ -68,6 +68,21 @@ public class RegisterActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         String name = nameEditText.getText().toString().trim();
         String dob = dobEditText.getText().toString().trim();
+        String mobileNumber = mobileNumberEditText.getText().toString().trim(); // Get mobile number
+
+        // Validate email
+        if (!isValidEmail(email)) {
+            emailEditText.setError("Enter a valid email address");
+            emailEditText.requestFocus();
+            return;
+        }
+
+        // Validate mobile number
+        if (!isValidMobileNumber(mobileNumber)) {
+            mobileNumberEditText.setError("Enter a valid 10-digit mobile number");
+            mobileNumberEditText.requestFocus();
+            return;
+        }
 
         // Firebase Authentication: Create user with email and password
         auth.createUserWithEmailAndPassword(email, password)
@@ -83,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 user.put("name", name);
                                 user.put("email", email);
                                 user.put("dob", dob);
-                                // Add more fields as needed
+                                user.put("mobile", mobileNumber); // Save mobile number
 
                                 firestore.collection("users").document(userId)
                                         .set(user)
@@ -93,30 +108,22 @@ public class RegisterActivity extends AppCompatActivity {
                                                 Log.e("RegisterActivity", "Error adding user details to Firestore", e));
                             }
                             Intent in = new Intent(RegisterActivity.this, EducationActivity.class);
-//                            Toast.makeText(RegisterActivity.this, "Register Scuscfully", Toast.LENGTH_SHORT).show();
                             startActivity(in);
-
-                            // You can navigate to another activity, show a success message, etc.
                         } else {
                             // If registration fails, display a message to the user.
                             Log.e("RegisterActivity", "User registration failed", task.getException());
-                            // You can handle the error appropriately (e.g., show a toast, display an error message)
+                            Toast.makeText(RegisterActivity.this, "User registration failed. " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//          window.setStatusBarColor(Color.TRANSPARENT);
-            window.setStatusBarColor(getResources().getColor(R.color.register_bk_color));
-        }
+
+    private boolean isValidEmail(CharSequence target) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public void onLoginClick(View view) {
-        Log.d("LoginClick", "Login button clicked");
-        startActivity(new Intent(this,LoginActivity.class));
-        overridePendingTransition(R.anim.slide_in_left, android.R.anim.slide_out_right);
+    private boolean isValidMobileNumber(String mobileNumber) {
+        // Validate if the mobile number is a 10-digit number
+        return mobileNumber.length() == 10 && android.text.TextUtils.isDigitsOnly(mobileNumber);
     }
 }
