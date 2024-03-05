@@ -126,4 +126,10 @@ public class RegisterActivity extends AppCompatActivity {
         // Validate if the mobile number is a 10-digit number
         return mobileNumber.length() == 10 && android.text.TextUtils.isDigitsOnly(mobileNumber);
     }
+    public void onLoginClick(View view) {
+        Log.d("LoginClick", "Login button clicked");
+        startActivity(new Intent(this,LoginActivity.class));
+        overridePendingTransition(R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
 }
+
