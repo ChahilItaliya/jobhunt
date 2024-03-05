@@ -1,5 +1,7 @@
 package com.example.jobhunt;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +32,7 @@ import java.util.HashMap;
 
 public class TempActivity extends AppCompatActivity {
 
-    private TextView textView,description,txtworkplace,txttime,txtsalary,txtlocation,txtexpr,txteligibility;
+    private TextView textView,description,txtworkplace,txttime,txtsalary,txtlocation,txtexpr,txteligibility,txttitle;
     ImageView imgphoto,imageView,img;
     Button btnapply;
     private FirebaseFirestore db;
@@ -53,6 +55,7 @@ public class TempActivity extends AppCompatActivity {
         btnapply = findViewById(R.id.apply);
         imageView = findViewById(R.id.imageView);
         img = findViewById(R.id.first);
+        txttitle = findViewById(R.id.text);
 
         String title = getIntent().getStringExtra("title");
 
@@ -78,7 +81,7 @@ public class TempActivity extends AppCompatActivity {
         String userId = auth.getCurrentUser().getUid();
 
         resumename(userId);
-
+        fetchTitle(documentId);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +89,7 @@ public class TempActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("jobs").document(documentId).get()
@@ -101,7 +105,6 @@ public class TempActivity extends AppCompatActivity {
                                     if (jobTask.isSuccessful()) {
                                         for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
                                             // Extract designation, description, etc. from each job document
-
                                             String location = jobDocument.getString("location");
                                             String experience = jobDocument.getString("experience");
                                             String salary = jobDocument.getString("salary");
@@ -115,7 +118,6 @@ public class TempActivity extends AppCompatActivity {
                                             txtworkplace.setText(workplace != null ? workplace : "No expr");
                                             txttime.setText(time != null ? time : "No time");
                                             txteligibility.setText(eligibility != null ? eligibility : "No eligibility");
-
                                         }
                                         // Notify adapter after loading all data outside the loop
 
@@ -169,6 +171,28 @@ public class TempActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void fetchTitle(String documentId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("jobs").document(documentId);
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    String title = documentSnapshot.getString("title");
+                    // Update your UI with the fetched title
+                    txttitle.setText(title != null ? title : "No Title");
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Error getting document", e);
+            }
+        });
     }
     private void AlreadyApplied(String jobId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
