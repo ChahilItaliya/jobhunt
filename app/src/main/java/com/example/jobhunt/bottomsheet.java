@@ -158,6 +158,7 @@ public class bottomsheet extends BottomSheetDialogFragment {
                     .addOnSuccessListener(aVoid -> {
                         // Application successful
                         Log.d("ApplyForJob", "Applied successfully");
+                        dismiss();
                         // Handle UI changes or any other actions upon successful application
                     })
                     .addOnFailureListener(e -> {

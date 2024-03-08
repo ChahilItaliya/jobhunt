@@ -75,6 +75,9 @@ public class TempActivity extends AppCompatActivity {
         String documentId = getIntent().getStringExtra("cid");
         String id = getIntent().getStringExtra("id");
 
+        Log.d("cid" , documentId);
+        Log.d("id" , id);
+
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
