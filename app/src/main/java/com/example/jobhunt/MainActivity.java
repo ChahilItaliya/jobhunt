@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         cardRef = db.collection("jobs");
 
         // Retrieve data from Firestore
-        jobsRef.limit(5) // Limit to first 5 records
+        jobsRef.limit(6) // Limit to first 5 records
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

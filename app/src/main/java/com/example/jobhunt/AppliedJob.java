@@ -4,12 +4,14 @@ public class AppliedJob {
     private String jobId;
     private String jobTitle;
     private String companyName;
+    private String img;
 
     // Constructor
-    public AppliedJob(String jobId, String jobTitle, String companyName) {
+    public AppliedJob(String companyName, String jobTitle, String img) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
         this.companyName = companyName;
+        this.img = img;
     }
 
     // Getters and Setters
@@ -35,5 +37,13 @@ public class AppliedJob {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

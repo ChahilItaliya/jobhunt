@@ -1,20 +1,20 @@
 package com.example.jobhunt;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -22,93 +22,127 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppliedJobsFragment extends Fragment {
-
+public class applied_jobs extends Fragment {
     private RecyclerView recyclerView;
     private AppliedJobsAdapter adapter;
-    private List<AppliedJob> appliedJobsList;
-
-    private FirebaseFirestore db;
-
-    public AppliedJobsFragment() {
-        // Required empty public constructor
-    }
+    private List<AppliedJob> appliedJobList;
+    private FirebaseFirestore firestore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_applied_jobs, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        appliedJobsList = new ArrayList<>();
-        adapter = new AppliedJobAdapter(getContext(), appliedJobsList);
+        appliedJobList = new ArrayList<>();
+        adapter = new AppliedJobsAdapter(appliedJobList);
         recyclerView.setAdapter(adapter);
 
-        db = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            firestore = FirebaseFirestore.getInstance();
+            Log.d("user id", userId);
+            fetchUserData(userId);
+        } else {
+            // Handle the case when no user is currently signed in
+        }
 
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        loadAppliedJobs();
+    // Inside fetchUserData method or wherever you retrieve data from Firestore
+    private void fetchUserData(String userId) {
+        firestore.collection("users")
+                .document(userId)
+                .collection("jobApply")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot companyDocument : task.getResult()) {
+                                String jobId = companyDocument.getId();
+                                String companyId = companyDocument.getString("companyId");
+                                fetchApplyJobs(companyId,jobId);
+                            }
+                        } else {
+                            // Handle errors
+                        }
+                    }
+                });
+    }
+    private void fetchApplyJobs(String companyId, String jobId) {
+        firestore.collection("jobs")
+                .document(companyId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String companyName = document.getString("title");
+                                String img = document.getString("img");
+                                fetchJobDetails(companyId, companyName, jobId, img);
+                            }
+                        } else {
+                            // Handle errors
+                        }
+                    }
+                });
     }
 
-    private void loadAppliedJobs() {
-        String userId = ""; // Provide the user ID here
+//    private void fetchApplyJobs(String companyId,String jobId) {
+//        firestore.collection("jobs")
+//                .document(companyId)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (DocumentSnapshot document : task.getResult()) {
+////                                String jobId = document.getId();
+//                                String companyName = document.getString("title");
+//                                fetchJobDetails(companyId, companyName, jobId);
+//                            }
+//                        } else {
+//                            // Handle errors
+//                        }
+//                    }
+//                });
+//    }
 
-        CollectionReference userJobApplyRef = db.collection("users").document(userId).collection("jobApply");
-
-        userJobApplyRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    String companyId = document.getId();
-                    getJobsForCompany(companyId);
-                }
-            } else {
-                Toast.makeText(getContext(), "Failed to fetch job applications", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void fetchJobDetails(String companyId,String companyName, String jobId,String img) {
+        firestore.collection("jobs")
+                .document(companyId)
+                .collection("job")
+                .document(jobId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot jobDocument = task.getResult();
+                            if (jobDocument.exists()) {
+//                                String companyName = jobDocument.getString("companyName");
+                                String jobName = jobDocument.getString("designation");
+                                AppliedJob appliedJob = new AppliedJob(companyName, jobName, img);
+                                appliedJobList.add(appliedJob);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                // Handle case where job document doesn't exist
+                            }
+                        } else {
+                            // Handle Firestore read errors
+                        }
+                    }
+                });
     }
 
-    private void getJobsForCompany(String companyId) {
-        CollectionReference companyApplyJobRef = db.collection("companies").document(companyId).collection("applyjob");
-
-        companyApplyJobRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (DocumentSnapshot document : task.getResult()) {
-                    String jobId = document.getId();
-                    getJobDetails(companyId, jobId);
-                }
-            } else {
-                Toast.makeText(getContext(), "Failed to fetch jobs for company", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void getJobDetails(String companyId, String jobId) {
-        DocumentReference jobRef = db.collection("jobs").document(companyId).collection("job").document(jobId);
-
-        jobRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    String jobTitle = document.getString("title");
-                    // Add job details to the list
-                    AppliedJob appliedJob = new AppliedJob(jobId, jobTitle, companyId);
-                    appliedJobsList.add(appliedJob);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getContext(), "Job details not found", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(getContext(), "Failed to fetch job details", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+    // AppliedJobsAdapter class definition here
+    // Make sure to define your RecyclerView adapter class and its ViewHolder inside this class
 }
