@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TempActivity"
-    android:background="#000"
+    android:background="#ebf8ff"
     android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,35 +42,41 @@
                     android:layout_gravity="center"/>
 
             </LinearLayout>
+
+
+
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="USA New York"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp"
                 tools:ignore="HardcodedText"
                 />
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:backgroundTint="#ebf8ff"
+                app:cardCornerRadius="15dp"
                 android:layout_marginTop="15dp">
 
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:layout_margin="10dp"
                     app:srcCompat="@drawable/microsoft"
                     android:scaleType="centerCrop"
-                    android:layout_marginStart="8dp"
                     android:layout_gravity="center"
                     android:foregroundGravity=""
                     />
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -82,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="USA New York"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_marginTop="8dp"
@@ -102,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Sr.Product Designer"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textSize="24sp"
@@ -122,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="3-4 Years"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:textSize="18sp"
                     android:layout_gravity="center"
@@ -132,10 +138,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
                 android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp">
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginVertical="15dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
@@ -143,7 +149,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="4dp"
                     app:cardCornerRadius="16dp"
-                    app:cardBackgroundColor="#525252">
+                    app:cardBackgroundColor="#bae5f4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -165,7 +171,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Remote"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:layout_marginTop="8dp"
                             android:textSize="18sp"
                             tools:ignore="HardcodedText"
@@ -179,7 +185,7 @@
                     android:layout_weight="1"
                     app:cardCornerRadius="16dp"
                     android:layout_marginStart="2dp"
-                    app:cardBackgroundColor="#525252">
+                    app:cardBackgroundColor="#bae5f4">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -200,7 +206,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Full-Time"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:layout_marginTop="8dp"
                             android:textSize="18sp"
                             tools:ignore="HardcodedText"
@@ -214,7 +220,7 @@
                     android:layout_weight="1"
                     app:cardCornerRadius="16dp"
                     android:layout_marginStart="4dp"
-                    app:cardBackgroundColor="#525252">
+                    app:cardBackgroundColor="#bae5f4">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -235,7 +241,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$40/hr"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:layout_marginTop="8dp"
                             android:textSize="18sp"
                             tools:ignore="HardcodedText"
@@ -244,6 +250,21 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="#bae5f4"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="20dp"
+                >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -258,13 +279,13 @@
                     android:layout_height="wrap_content"
                     android:text="Description"
                     android:textSize="20dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/description"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:text="Description of compney"
                     android:textSize="15dp"/>
                 <com.google.android.material.divider.MaterialDivider
@@ -287,31 +308,35 @@
                     android:layout_height="wrap_content"
                     android:text="Eligibility"
                     android:textSize="20dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/eligibility"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:text="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis molestiae nostrum quisquam architecto reprehenderit natus cum, omnis commodi? Cum rerum saepe ad eveniet ducimus excepturi?
 "
                     android:textSize="15dp"/>
             </LinearLayout>
 
         </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="20dp">
         <Button
             android:id="@+id/apply"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textColor="@color/white"
-            android:backgroundTint="#525252"
+            android:backgroundTint="#080826"
             android:text="Apply Now"
             android:textStyle="bold"
             android:textSize="20sp">

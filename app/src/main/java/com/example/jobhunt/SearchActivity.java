@@ -43,9 +43,9 @@ public class SearchActivity extends AppCompatActivity {
         SearchView searchView = findViewById(R.id.searchEditText);
         EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
         if (searchEditText != null) {
-            searchEditText.setTextColor(getResources().getColor(android.R.color.white));
-            searchEditText.setHintTextColor(getResources().getColor(android.R.color.white));
-        }  // Use your color resource
+            searchEditText.setTextColor(getResources().getColor(android.R.color.black));
+            searchEditText.setHintTextColor(getResources().getColor(android.R.color.black));
+        }// Use your color resource
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

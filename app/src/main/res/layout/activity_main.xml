@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/black"
+    android:background="#ebf8ff"
     android:orientation="vertical">
 
     <!-- Main content -->
@@ -29,16 +29,18 @@
                 android:layout_margin="6dp">
                 <ImageButton
                     android:id="@+id/btnOpenSidebar"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/menu"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/burger_menu"
                     android:layout_gravity="center" />
 
                 <com.google.android.material.search.SearchBar
                     android:id="@+id/search_bar"
                     android:layout_width="230dp"
                     android:layout_height="40dp"
-                    android:hint="search here" />
+                    android:hint="search here"
+                    android:backgroundTint="@color/white"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/userPhoto"
@@ -66,18 +68,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Show Popular Job"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center"
                     android:textSize="18sp"
                     tools:ignore="HardcodedText"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/baseline_keyboard_arrow_right_24"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/right_arrow"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_gravity="center" />
             </LinearLayout>
 
             <!-- Popular Job Card -->
@@ -87,7 +89,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/recycler_view"/>
+                    android:id="@+id/recycler_view"
+                    />
             </LinearLayout>
 
             <!-- Recent Job Section -->
@@ -104,18 +107,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Recent Job"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center"
                     android:textSize="18sp"
                     tools:ignore="HardcodedText"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/baseline_keyboard_arrow_right_24"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/right_arrow"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <!-- Recent Job Cards -->
