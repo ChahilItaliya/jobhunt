@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/black"
+    android:background="#ebf8ff"
     android:orientation="vertical">
 
     <LinearLayout
@@ -15,8 +15,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/first"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/baseline_keyboard_arrow_right_24"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
@@ -43,8 +43,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Apply Job"
-                android:textColor="@color/white"
+                android:text="Apply Job "
+                android:textColor="@color/black"
                 android:layout_gravity="center"
                 />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Approved Job"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_gravity="center"
                 />
         </com.google.android.material.button.MaterialButtonToggleGroup>

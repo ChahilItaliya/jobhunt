@@ -12,14 +12,14 @@
         <!-- Fill the frame with black color -->
         <path
             android:pathData="M0 0H320V103H0V0Z"
-            android:fillColor="#000000"
+            android:fillColor="#fff"
             />
 
         <!-- Draw the border with white color -->
         <path
             android:pathData="M0 0H320V103H0V0Z"
-            android:strokeWidth="2"
-            android:strokeColor="#FFFFFF"
+            android:strokeWidth="5"
+            android:strokeColor="#080826"
             />
     </group>
 </vector>

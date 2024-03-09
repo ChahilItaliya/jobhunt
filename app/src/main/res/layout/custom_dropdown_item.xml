@@ -6,5 +6,5 @@
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
     android:padding="16dp"
-    android:textColor="@color/white"
+    android:textColor="#ebf8ff"
     />

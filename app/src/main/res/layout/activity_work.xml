@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".work"
-    android:background="#000"
+    android:background="#ebf8ff"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/baseline_keyboard_arrow_right_24"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Preferred work type"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="23sp"
             android:layout_marginStart="15dp"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This will help us to find the right job for you"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginStart="15dp"
             />
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Preferred employment type"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginStart="15dp"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="Full-time"
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_marginStart="15dp"
             android:layout_centerVertical="true"/>
         <!-- Checkbox -->
@@ -92,7 +92,7 @@
             android:id="@+id/f1"
             android:layout_alignParentEnd="true"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_gravity="right"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:text="Part Time"
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_marginStart="15dp"
             android:layout_centerVertical="true"/>
         <!-- Checkbox -->
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text=""
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_gravity="right"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:text="Preferred workplace"
                     android:layout_marginStart="15dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:text="Field Job"
                     android:textSize="16sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_marginStart="15dp"
                     android:layout_centerVertical="true"/>
                 <!-- Checkbox -->
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_gravity="right"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -182,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:text="Work from Office"
                     android:textSize="16sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_marginStart="15dp"
                     android:layout_centerVertical="true"/>
                 <!-- Checkbox -->
@@ -192,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_gravity="right"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -211,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:text="Work from Home"
                     android:textSize="16sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_marginStart="15dp"
                     android:layout_centerVertical="true"/>
                 <!-- Checkbox -->
@@ -221,7 +221,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_gravity="right"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -234,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:text="Preferred shift"
                     android:layout_marginStart="15dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -253,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:text="Day Shift"
                     android:textSize="16sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_marginStart="15dp"
                     android:layout_centerVertical="true"/>
                 <!-- Checkbox -->
@@ -263,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_gravity="right"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -282,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:text="Night Shift"
                     android:textSize="16sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_marginStart="15dp"
                     android:layout_centerVertical="true"/>
                 <!-- Checkbox -->
@@ -292,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_gravity="right"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
@@ -307,7 +307,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:backgroundTint="@color/themeColor"
+            android:backgroundTint="#080826"
             android:text="Next"
             android:textStyle="bold"
             android:textSize="20sp">

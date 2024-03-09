@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_dialog">
+    android:background="#ebf8ff">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="Upload Resume"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_marginBottom="10dp"
                 android:textSize="18sp"
                 tools:ignore="HardcodedText"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="Mobile Number"
                 android:textSize="16dp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -70,7 +70,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:textColor="@color/white"
-                android:backgroundTint="#000"
+                android:backgroundTint="#080826"
                 android:text="Conform Submiting"
                 android:textStyle="bold"
                 android:textSize="18dp">

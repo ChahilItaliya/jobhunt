@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         tools:ignore="MissingConstraints"
-        android:background="@color/black"/>
+        android:background="#ebf8ff"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
