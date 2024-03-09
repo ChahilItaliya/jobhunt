@@ -59,6 +59,7 @@ public class applied_jobs extends Fragment {
         firestore.collection("users")
                 .document(userId)
                 .collection("jobApply")
+                .whereEqualTo("process", "applied")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -96,25 +97,6 @@ public class applied_jobs extends Fragment {
                 });
     }
 
-//    private void fetchApplyJobs(String companyId,String jobId) {
-//        firestore.collection("jobs")
-//                .document(companyId)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (DocumentSnapshot document : task.getResult()) {
-////                                String jobId = document.getId();
-//                                String companyName = document.getString("title");
-//                                fetchJobDetails(companyId, companyName, jobId);
-//                            }
-//                        } else {
-//                            // Handle errors
-//                        }
-//                    }
-//                });
-//    }
 
     private void fetchJobDetails(String companyId,String companyName, String jobId,String img) {
         firestore.collection("jobs")
