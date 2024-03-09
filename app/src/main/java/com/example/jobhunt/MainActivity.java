@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("title", card.getTitle()); // Pass the card ID to the new activity
                 intent.putExtra("description", card.getDescription());
                 intent.putExtra("cid",card.getDocumentId());
-                intent.putExtra("id",card.getDocumentId());
+                intent.putExtra("id",card.getId());
                 intent.putExtra("img",card.getPhoto());
                 startActivity(intent);
             }
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         cardRef = db.collection("jobs");
 
         // Retrieve data from Firestore
-        jobsRef.limit(5) // Limit to first 5 records
+        jobsRef.limit(6) // Limit to first 5 records
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

@@ -1,6 +1,7 @@
 package com.example.jobhunt;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,6 +110,8 @@ public class bottomsheet extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 // Handle button click event here
                 // For example, you can dismiss the bottom sheet dialog
+                Log.d("companyId" , companyId);
+                Log.d("jobId" , jobId);
                 applyForJob(companyId,jobId);
 
             }
@@ -119,6 +122,7 @@ public class bottomsheet extends BottomSheetDialogFragment {
     private void applyForJob(String companyId, String jobId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         if (currentUser != null) {
             String userId = currentUser.getUid();
 
@@ -134,26 +138,36 @@ public class bottomsheet extends BottomSheetDialogFragment {
             DocumentReference userJobRef = db.collection("users")
                     .document(userId)
                     .collection("jobApply")
-                    .document(companyId)
-                    .collection("applyjob")
-                    .document(jobId);
+                    .document(jobId);  // Note: Assuming jobId is unique across users
 
             HashMap<String, Object> userData = new HashMap<>();
-            userData.put("process", "applied");
+            userData.put("companyId", companyId);
+            userData.put("jobId", jobId);
+            userData.put("process","applied");
 
+            HashMap<String, Object> jobData = new HashMap<>();
+            jobData.put("userId", userId);
+            jobData.put("process", "applied");
+
+            // Start a transaction to ensure consistency of data
             db.runTransaction((Transaction.Function<Void>) transaction -> {
-                        transaction.set(companyJobRef, userData);
-                        transaction.set(userJobRef, userData);
+                        transaction.set(companyJobRef, jobData); // Store user's application under company's job
+                        transaction.set(userJobRef, userData); // Update user's job application entry
                         return null;
                     })
                     .addOnSuccessListener(aVoid -> {
-//                        Toast.makeText(this, "Applied successfully", Toast.LENGTH_SHORT).show();
+                        // Application successful
+                        Log.d("ApplyForJob", "Applied successfully");
                         dismiss();
+                        // Handle UI changes or any other actions upon successful application
                     })
                     .addOnFailureListener(e -> {
-//                        Toast.makeText(this, "Failed to apply", Toast.LENGTH_SHORT).show();
+                        // Application failed
+                        Log.e("ApplyForJob", "Failed to apply", e);
+                        // Handle any errors or notify the user about the failure
                     });
         }
     }
+
 
 }
