@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditProfile"
-    android:background="@color/black">
+    android:background="#ebf8ff">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,8 +22,8 @@
             android:orientation="horizontal"
             android:layout_marginTop="15dp">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@drawable/baseline_keyboard_arrow_right_24"
                 android:id="@+id/back"/>
             <RelativeLayout
@@ -35,7 +35,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Edit Profile"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:gravity="center"
                     />
             </RelativeLayout>
@@ -69,8 +70,8 @@
                         android:hint="Change Profile Photo"
                         android:layout_gravity="center"
                         android:textStyle="bold"
-                        android:textColorHint="@color/white"
-                        android:textColor="@color/white"
+                        android:textColorHint="@color/black"
+                        android:textColor="@color/black"
                         android:backgroundTint="@null"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
@@ -87,7 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Full name"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter Full Name"
-                    app:hintTextColor="@color/white"
+                    app:hintTextColor="@color/black"
                     app:boxStrokeWidth="2dp"
                     app:endIconMode="clear_text"
                     app:shapeAppearanceOverlay="@style/edittext">
@@ -107,7 +109,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/black"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <LinearLayout
@@ -120,7 +122,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mobile Number"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="+91 1234567890"
-                    app:hintTextColor="@color/white"
+                    app:hintTextColor="@color/black"
                     app:boxStrokeWidth="2dp"
                     app:endIconMode="clear_text"
                     app:shapeAppearanceOverlay="@style/edittext">
@@ -140,7 +143,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/black"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <LinearLayout
@@ -153,7 +156,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Update Resume"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
             </LinearLayout>
         <LinearLayout
             android:layout_width="@dimen/_240sdp"
@@ -166,7 +170,7 @@
                 android:id="@+id/imgresume"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/pdf"
+                android:background="@drawable/file_pdf"
                 android:layout_gravity="center_vertical"
                 />
             <TextView
@@ -175,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:text="Resume Name"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 tools:ignore="HardcodedText"
                 android:layout_weight="1"
@@ -184,7 +188,7 @@
                 android:id="@+id/dot"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@drawable/menu_vertical"
+                android:background="@drawable/menu_dots_vertical"
                 android:layout_gravity="center_vertical"
                 />
         </LinearLayout>
@@ -200,12 +204,12 @@
                     android:text="Improve your job matches"
                     android:textStyle="bold"
                     android:textSize="18dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/black"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#525252"
+                android:background="@color/black"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
@@ -227,13 +231,13 @@
                     android:text="Qualifications"
                     android:textStyle="bold"
                     android:textSize="18dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/black"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Highlight your skills and experience"
                         android:textSize="14dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:layout_marginTop="10dp"/>
                 </LinearLayout>
                 <View
@@ -251,7 +255,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#525252"
+                android:background="@color/black"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
@@ -273,13 +277,13 @@
                         android:text="Job Preferences"
                         android:textStyle="bold"
                         android:textSize="18dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/black"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Save Specific details like minimum desired pay\nand schedule"
                         android:textSize="14dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:layout_marginTop="10dp"/>
                 </LinearLayout>
                 <View
@@ -319,13 +323,13 @@
                         android:text="Ready to work"
                         android:textStyle="bold"
                         android:textSize="18dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/black"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Let employers know that you're available to start\nworking as soon as possible"
                         android:textSize="14dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:layout_marginTop="10dp"/>
                 </LinearLayout>
                 <View
@@ -343,7 +347,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#525252"
+                android:background="@color/black"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
@@ -357,7 +361,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:backgroundTint="#525252"
+                    android:backgroundTint="#080826"
                     android:text="Save Changes"
                     android:textStyle="bold"
                     android:textSize="20sp">

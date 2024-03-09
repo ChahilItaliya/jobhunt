@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
-    android:background="#000"
+    android:background="#ebf8ff"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/baseline_keyboard_arrow_right_24"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"/>
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="Upload Resume"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_marginBottom="10dp"
             android:textSize="18sp"
             tools:ignore="HardcodedText"
@@ -65,7 +65,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:textColor="@color/white"
-            android:backgroundTint="#525252"
+            android:backgroundTint="@color/black"
             android:text="Browse"
             android:textStyle="bold"
             android:textSize="22dp">
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:textColor="@color/white"
-            android:backgroundTint="#525252"
+            android:backgroundTint="#080826"
             android:text="Next"
             android:textStyle="bold"
             android:textSize="22dp">

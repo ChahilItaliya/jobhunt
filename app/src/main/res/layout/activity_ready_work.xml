@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ReadyWork"
-    android:background="@color/black">
+    android:background="#ebf8ff">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,8 +18,8 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/baseline_keyboard_arrow_right_24"
             android:id="@+id/back"/>
     </LinearLayout>
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="Ready to work"
                 android:textSize="26sp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 />
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="Let employers know that you're available to start\nworking as soon as possible"
                 android:textSize="16sp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_marginTop="15dp"
                 />
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text="I'm not available to start immediately"
                 android:layout_marginStart="15dp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 />
         </LinearLayout>
     </LinearLayout>
