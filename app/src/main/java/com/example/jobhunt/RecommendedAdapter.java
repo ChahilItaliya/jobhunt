@@ -13,11 +13,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.JobViewHolder> {
-    private List<AppliedJob> appliedJobs;
+public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.JobViewHolder> {
+    private List<Recommend_job> recommendJobs;
 
-    public AppliedJobsAdapter(List<AppliedJob> appliedJobs) {
-        this.appliedJobs = appliedJobs;
+    public RecommendedAdapter(List<Recommend_job> recommendJobs) {
+        this.recommendJobs = recommendJobs;
     }
 
     @NonNull
@@ -29,33 +29,33 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull JobViewHolder holder, int position) {
-        AppliedJob appliedJob = appliedJobs.get(position);
-        holder.bind(holder, appliedJob);
+        Recommend_job recommendJob = recommendJobs.get(position);
+        holder.bind(recommendJob);
     }
 
     @Override
     public int getItemCount() {
-        return appliedJobs.size();
+        return recommendJobs.size();
     }
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewJobName,textViewCompneyName;
+        private TextView textViewJobTitle, textViewCompanyName;
         private ImageView img;
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewJobName = itemView.findViewById(R.id.title_text_view);
-            textViewCompneyName = itemView.findViewById(R.id.description_text_view);
+            textViewJobTitle = itemView.findViewById(R.id.title_text_view);
+            textViewCompanyName = itemView.findViewById(R.id.description_text_view);
             img = itemView.findViewById(R.id.photo);
         }
 
-        public void bind(@NonNull JobViewHolder holder, AppliedJob appliedJob) {
-            textViewJobName.setText(appliedJob.getJobTitle());
-            textViewCompneyName.setText(appliedJob.getCompanyName());
+        public void bind(Recommend_job recommendJob) {
+            textViewJobTitle.setText(recommendJob.getJobTitle());
+            textViewCompanyName.setText(recommendJob.getCompanyName());
 
-            Glide.with(holder.itemView.getContext())
-                    .load(appliedJob.getImg())
-                    .into(holder.img);
+            Glide.with(itemView.getContext())
+                    .load(recommendJob.getImg()) // Assuming Recommend_job has a method to get image URL
+                    .into(img);
         }
     }
 }

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Jobhunt"
         tools:targetApi="31">
         <activity
+            android:name=".RecommendedActivity"
+            android:exported="false" />
+        <activity
             android:name=".savejob"
             android:exported="false" />
         <activity
@@ -73,7 +76,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>
